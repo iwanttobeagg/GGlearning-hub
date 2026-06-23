@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="06/23 李孟珊業務經理｜富邦之星課程逐字稿整理成可互動、可執行的筆記頁。" />
+  <meta name="theme-color" content="#0d1b2a" />
+  <title>06/23 李孟珊業務經理｜富邦之星互動筆記</title>
+  <link rel="icon" href="../../assets/brand-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../../css/style.css?v=20260623" />
+  <style>
+    :root {
+      --note-navy: #0d1b2a;
+      --note-navy-2: #142b45;
+      --note-gold: #d9ad4f;
+      --note-gold-2: #f2d58c;
+      --note-cream: #fff8e6;
+      --note-paper: rgba(255, 252, 245, .94);
+      --note-green: #4f8f6b;
+      --note-red: #b95858;
+      --note-blue: #1d4e89;
+      --note-line: rgba(13, 27, 42, .12);
+      --note-muted: #6d7480;
+      --note-shadow: 0 24px 70px rgba(13,27,42,.16);
+      --note-soft: 0 12px 34px rgba(13,27,42,.10);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: radial-gradient(circle at top right, rgba(217,173,79,.14), transparent 32rem), #f6f1e7; }
+    .note-header {
+      min-height: 72vh;
+      display: grid;
+      align-items: end;
+      padding: 18px 0 64px;
+      color: var(--note-cream);
+      background:
+        radial-gradient(circle at 80% 18%, rgba(244, 215, 125, .30), transparent 31rem),
+        radial-gradient(circle at 8% 22%, rgba(67, 127, 183, .30), transparent 24rem),
+        linear-gradient(135deg, rgba(13,27,42,.99), rgba(21,42,66,.97));
+      border-bottom-left-radius: 52px;
+      border-bottom-right-radius: 52px;
+      box-shadow: var(--note-shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .note-header:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 82%);
+    }
+    .note-topbar, .note-hero { position: relative; z-index: 1; }
+    .note-topbar {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .note-hero {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(310px, .62fr);
+      gap: 32px;
+      align-items: end;
+    }
+    .note-hero h1 {
+      margin: 0;
+      font-size: clamp(2.9rem, 7vw, 6.8rem);
+      line-height: .9;
+      letter-spacing: -0.075em;
+      max-width: 940px;
+    }
+    .note-lead {
+      color: rgba(255,248,230,.78);
+      font-size: clamp(1.02rem, 1.8vw, 1.2rem);
+      line-height: 1.85;
+      max-width: 800px;
+      margin: 24px 0 0;
+    }
+    .note-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .note-tag { padding: 8px 13px; border-radius: 999px; background: rgba(255,255,255,.13); border: 1px solid rgba(255,255,255,.16); color: rgba(255,248,230,.92); font-weight: 900; font-size: .92rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: rgba(255,248,230,.88); font-weight: 900; white-space: nowrap; }
+    .note-meta-card { padding: 24px; border-radius: 30px; background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.07)); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(18px); box-shadow: 0 24px 70px rgba(0,0,0,.18); }
+    .meta-row { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.14); color: rgba(255,248,230,.72); }
+    .meta-row:last-child { border-bottom: 0; }
+    .meta-row strong { color: var(--note-cream); text-align: right; }
+    .note-main { width: min(1180px, calc(100% - 40px)); margin: -44px auto 0; position: relative; z-index: 2; padding-bottom: 82px; }
+    .quick-nav { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px; border-radius: 28px; background: rgba(255, 252, 245, .88); border: 1px solid rgba(255,255,255,.92); box-shadow: var(--note-soft); backdrop-filter: blur(14px); margin-bottom: 22px; position: sticky; top: 12px; z-index: 20; }
+    .quick-nav a { padding: 10px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--note-line); color: var(--note-navy); font-weight: 900; font-size: .9rem; }
+    .note-card { padding: clamp(22px, 4vw, 34px); border-radius: 32px; background: var(--note-paper); border: 1px solid rgba(255,255,255,.9); box-shadow: var(--note-soft); backdrop-filter: blur(14px); margin-bottom: 22px; }
+    .note-card h2 { margin: 0 0 10px; font-size: clamp(1.55rem, 3vw, 2.45rem); letter-spacing: -0.045em; color: var(--note-navy); }
+    .note-card h3 { margin: 0 0 8px; font-size: 1.18rem; letter-spacing: -.025em; color: var(--note-navy); }
+    .note-card p, .note-card li { color: #3d4650; line-height: 1.82; }
+    .muted { color: var(--note-muted); }
+    .eyebrow { color: var(--note-gold); text-transform: uppercase; letter-spacing: .16em; font-weight: 950; font-size: .78rem; margin: 0 0 9px; }
+    .hero-metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 22px; }
+    .metric { padding: 18px; border-radius: 24px; background: #fff; border: 1px solid var(--note-line); }
+    .metric strong { display: block; color: var(--note-navy); font-size: 1.55rem; line-height: 1; letter-spacing: -.045em; }
+    .metric span { color: var(--note-muted); font-size: .9rem; line-height: 1.6; display: block; margin-top: 8px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .mini-card { padding: 19px; border-radius: 24px; background: #fff; border: 1px solid var(--note-line); }
+    .mini-card b { display:block; color: var(--note-navy); margin-bottom: 7px; font-size: 1.02rem; }
+    .mini-card span, .mini-card small { color: var(--note-muted); line-height: 1.7; }
+    .timeline { display: grid; gap: 14px; margin-top: 20px; }
+    .chapter { display: grid; grid-template-columns: 116px 1fr; gap: 18px; padding: 18px; border-radius: 26px; background: #fff; border: 1px solid var(--note-line); }
+    .chapter time { color: var(--note-gold); font-weight: 950; }
+    .chapter ul { margin: 9px 0 0; padding-left: 1.25em; }
+    .tool-panel { border-radius: 28px; background: #fff; border: 1px solid var(--note-line); padding: 22px; margin-top: 16px; }
+    .field-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 16px 0; }
+    label { font-weight: 900; color: var(--note-navy); display:block; margin-bottom: 7px; }
+    input, select, textarea { width: 100%; box-sizing: border-box; border: 1px solid rgba(13,27,42,.16); background: #fffdf8; border-radius: 16px; padding: 12px 13px; font: inherit; color: var(--note-navy); outline: none; }
+    textarea { min-height: 116px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: rgba(217,173,79,.72); box-shadow: 0 0 0 4px rgba(217,173,79,.13); }
+    .btn-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 12px; }
+    .note-btn { appearance:none; border:0; cursor:pointer; border-radius:999px; padding: 12px 16px; font-weight:950; color:#fff8e6; background: linear-gradient(135deg, var(--note-navy), var(--note-blue)); box-shadow: 0 12px 28px rgba(13,27,42,.15); }
+    .note-btn.secondary { color: var(--note-navy); background: #fff; border: 1px solid var(--note-line); box-shadow:none; }
+    .result-box { margin-top: 15px; padding: 18px; border-radius: 22px; background: linear-gradient(180deg, #fff9e9, #fff); border: 1px solid rgba(217,173,79,.26); color: #303943; line-height: 1.75; white-space: pre-wrap; }
+    .checklist { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 16px; }
+    .check-item { display:flex; gap: 11px; align-items:flex-start; padding: 14px; border: 1px solid var(--note-line); border-radius: 20px; background:#fff; }
+    .check-item input { width: 18px; height: 18px; margin-top: 4px; flex: 0 0 auto; }
+    .check-item span { color: #3d4650; line-height: 1.65; }
+    .progress-wrap { display:grid; grid-template-columns: 160px 1fr; align-items:center; gap: 18px; margin-top: 18px; }
+    .progress-ring { width: 142px; height: 142px; border-radius:50%; display:grid; place-items:center; background: conic-gradient(var(--note-gold) var(--progress, 0%), rgba(13,27,42,.10) 0); position:relative; }
+    .progress-ring:after { content:""; position:absolute; inset:13px; background:#fff; border-radius:50%; }
+    .progress-ring strong { position:relative; z-index:1; font-size: 2rem; color: var(--note-navy); }
+    .pill-list { display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px; }
+    .pill { padding: 8px 11px; border-radius:999px; background: rgba(29,78,137,.09); color: var(--note-navy); font-weight: 900; font-size: .88rem; }
+    .quote-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .quote { padding: 22px; border-radius: 25px; background: linear-gradient(135deg, rgba(13,27,42,.96), rgba(21,42,66,.92)); color: var(--note-cream); position: relative; overflow:hidden; }
+    .quote:before { content:"“"; position:absolute; right:18px; top:-16px; color:rgba(217,173,79,.25); font-size:7rem; font-family: Georgia, serif; }
+    .quote b { position:relative; display:block; color: var(--note-gold-2); margin-bottom: 8px; }
+    .quote p { position:relative; color: rgba(255,248,230,.86); margin:0; }
+    .quiz-options { display:grid; gap: 10px; margin-top: 12px; }
+    .quiz-option { padding: 12px 14px; border-radius: 18px; border:1px solid var(--note-line); background:#fff; cursor:pointer; color:#3d4650; }
+    .quiz-option.selected { border-color: rgba(217,173,79,.8); background:#fff7df; font-weight:900; color:var(--note-navy); }
+    .quiz-question { padding: 18px; border-radius: 24px; background:#fff; border:1px solid var(--note-line); margin-top: 14px; }
+    .table-scroll { overflow:auto; border-radius: 22px; border: 1px solid var(--note-line); margin-top: 14px; }
+    table { border-collapse: collapse; width:100%; min-width: 720px; background:#fff; }
+    th, td { padding: 13px 14px; border-bottom:1px solid var(--note-line); text-align:left; vertical-align:top; color:#3d4650; line-height:1.6; }
+    th { background:#fff7df; color:var(--note-navy); font-weight:950; }
+    tr:last-child td { border-bottom:0; }
+    .print-note { display:none; }
+    @media print {
+      .quick-nav, .note-btn, .tool-panel input, .tool-panel select, .tool-panel textarea, .btn-row { display:none !important; }
+      .note-header { min-height:auto; border-radius:0; padding: 20px 0; }
+      .note-main { margin:20px auto 0; }
+      .note-card { box-shadow:none; break-inside: avoid; }
+      .print-note { display:block; color:#3d4650; }
+    }
+    @media (max-width: 920px) {
+      .note-hero, .grid-2, .grid-3, .hero-metrics, .quote-grid, .field-grid, .checklist { grid-template-columns: 1fr; }
+      .chapter { grid-template-columns: 1fr; }
+      .progress-wrap { grid-template-columns: 1fr; }
+      .quick-nav { position: relative; top: auto; }
+      .note-topbar { align-items:flex-start; }
+      .brand-text small { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="note-header">
+    <nav class="note-topbar" aria-label="課程導覽">
+      <a class="brand" href="../../index.html" aria-label="回到課程目錄">
+        <span class="brand-mark">TP</span>
+        <span class="brand-text">
+          <strong>TP799 Learning Hub</strong>
+          <small>互動筆記・複訓工具</small>
+        </span>
+      </a>
+      <a class="back-link" href="../../index.html#courses">← 回課程目錄</a>
+    </nav>
+    <section class="note-hero">
+      <div>
+        <p class="eyebrow">06/23 Transcript → Action Notes</p>
+        <h1>富邦之星<br>穩定高績效系統</h1>
+        <p class="note-lead">整理自李孟珊業務經理 06/23 課程逐字稿。這不是逐字稿重排，而是把 87 次富邦之星背後的做法，拆成可以自評、可以練習、可以追蹤、可以帶團隊複訓的互動筆記。</p>
+        <div class="note-tags">
+          <span class="note-tag">#名單不是問題</span>
+          <span class="note-tag">#認同先於銷售</span>
+          <span class="note-tag">#約什麼做什麼</span>
+          <span class="note-tag">#服務創造活動量</span>
+          <span class="note-tag">#團隊複利</span>
+        </div>
+      </div>
+      <aside class="note-meta-card" aria-label="課程資訊">
+        <div class="meta-row"><span>日期</span><strong>2026 / 06 / 23</strong></div>
+        <div class="meta-row"><span>講師</span><strong>李孟珊｜業務經理</strong></div>
+        <div class="meta-row"><span>整理定位</span><strong>互動筆記版</strong></div>
+        <div class="meta-row"><span>適用對象</span><strong>新人、業務、主管複訓</strong></div>
+      </aside>
+    </section>
+  </header>
+
+  <main class="note-main">
+    <nav class="quick-nav" aria-label="快速跳轉">
+      <a href="#summary">課程主軸</a>
+      <a href="#chapters">章節筆記</a>
+      <a href="#checklist">行動自評</a>
+      <a href="#planner">達成計算</a>
+      <a href="#script">約訪產生器</a>
+      <a href="#pool">名單水池</a>
+      <a href="#monthly">12月主題</a>
+      <a href="#quiz">課後測驗</a>
+      <a href="#coach">主管複訓</a>
+    </nav>
+
+    <section id="summary" class="note-card">
+      <p class="eyebrow">核心整理</p>
+      <h2>這堂課真正要帶走的，不是熱血，是一套「穩定產出系統」。</h2>
+      <p>李孟珊業務經理用自己的業績歷程，把富邦之星拆成幾個可操作的關鍵：先承認自己要賺錢的理由，再用明確主題創造活動量；先累積認同，再進入銷售；把信用卡、產險、服務、社群、吃喝玩樂都變成接觸點；最後從個人穩定產出，走到團隊複利。</p>
+      <div class="hero-metrics">
+        <div class="metric"><strong>87</strong><span>她提到自己斷在 87 次，重點放在技術面拆解。</span></div>
+        <div class="metric"><strong>15C</strong><span>第一年約 12 件、15C，反而成為後續調整起點。</span></div>
+        <div class="metric"><strong>3–5件</strong><span>課中提到富邦之星是每月穩定新客戶件數的賽制訓練。</span></div>
+        <div class="metric"><strong>237</strong><span>她提到人壽客戶數不多，但靠深耕與忠誠度累積價值。</span></div>
+      </div>
+      <div class="grid-3" style="margin-top:16px">
+        <div class="mini-card"><b>一句話主軸</b><span>富邦之星不是拚某一張大單，而是讓自己每月都有活動量、有接觸、有信任、有成交。</span></div>
+        <div class="mini-card"><b>核心方法</b><span>名單 → 認同 → 銷售 → 建議書 → 送保單。她把「認同」放在銷售前面。</span></div>
+        <div class="mini-card"><b>課後落地</b><span>今天不是聽完感動，而是立刻寫出本月標準、缺口、名單、主題與下一次約訪。</span></div>
+      </div>
+    </section>
+
+    <section class="note-card">
+      <p class="eyebrow">Mindset Cards</p>
+      <h2>六張觀念卡：複訓時可以直接丟給同仁討論</h2>
+      <div class="quote-grid">
+        <div class="quote"><b>01｜不要把低產能合理化</b><p>時間少、很累、還是學生、沒人脈，都不是核心原因。真正要面對的是：你有沒有把賺錢理由放到足夠前面。</p></div>
+        <div class="quote"><b>02｜不是沒有名單，是不會接觸</b><p>認識的人、既有市場、未來市場都在。問題通常不是「沒有誰」，而是「用什麼理由接觸」。</p></div>
+        <div class="quote"><b>03｜約什麼，就做什麼</b><p>不要約吃飯卻臨時硬切商品。主題明確，對方有心理準備，業務也不尷尬。</p></div>
+        <div class="quote"><b>04｜信用卡、產險、服務都是入口</b><p>佣金小不代表價值小。它們創造見面、個資信任、財務資訊與下一次談話。</p></div>
+        <div class="quote"><b>05｜社群不是轉貼，是價值觀曝光</b><p>一篇貼文要有自己的立場、感受與受眾思考；不然只是把新聞搬到別人眼前。</p></div>
+        <div class="quote"><b>06｜團隊會看著主管的背影長大</b><p>你一直做什麼，底下的人就容易長成那個樣子。主管的穩定標準就是團隊文化。</p></div>
+      </div>
+    </section>
+
+    <section id="chapters" class="note-card">
+      <p class="eyebrow">Clean Notes</p>
+      <h2>章節式課程筆記</h2>
+      <p class="muted">已把逐字稿中的口語、玩笑與重複語句整理成可閱讀版，保留課程邏輯與實戰重點。</p>
+      <div class="timeline">
+        <article class="chapter"><time>00:00–04:20</time><div><h3>一、從 15C 開始：不要用辛苦替低產能找理由</h3><p>她第一年大約 12 件、15C，收入也不高。課程用這段起手，是要讓新人知道：起點差不是問題，問題是你是否面對自己的理由。真正的關鍵不是「我很忙」「我很累」，而是你是否把業績變成非做不可的事。</p></div></article>
+        <article class="chapter"><time>04:20–10:50</time><div><h3>二、NPSS 與名單問題：難點不是名單，是接觸方式</h3><p>傳統流程是名單、約訪、銷售、需求分析、建議書、送保單。她認為多數人卡在名單與約訪，但名單本身不是真的消失；我們身邊本來就有既有市場，也可以開發未來市場。真正要解的是：用什麼主題、什麼理由、什麼關係重新接觸。</p></div></article>
+        <article class="chapter"><time>10:50–21:50</time><div><h3>三、約訪主題化：讓客戶有心理準備，讓自己不尷尬</h3><p>她不一定用議題式商品邀約，而是把約訪變成問卷、信用卡、保單健診、商品、服務等明確主題。原則是「約什麼就做什麼」：約問卷就先把問卷完成；不要因為客戶突然提到醫療險，就讓對方覺得你本來只是要賣他。</p><ul><li>壞切入：吃飯吃到一半突然說「對了，我今天早上學到……」</li><li>好切入：一開始就讓對方知道今天要做什麼，對方願意來，成交機率自然提高。</li></ul></div></article>
+        <article class="chapter"><time>21:50–28:50</time><div><h3>四、信用卡不是小事：它是活動量與信任測試</h3><p>她第二年做信用卡，曾在一個月內辦出大量卡件。重點不在短期獎金，而是信用卡讓她看懂：不用付錢的東西，客戶都願意提供資料，後續要談需要付錢的保單才有機會。核不過可以談財務狀況；核得過可以談投資、保障與規劃。</p></div></article>
+        <article class="chapter"><time>28:50–36:40</time><div><h3>五、類 NPSS：把「認同」放到銷售之前</h3><p>她自己的流程變成：名單 → 認同 → 銷售 → 建議書 → 送保單。認同包含三層：認同你這個人、認同你的觀念、認同保險這個工具。客戶會回頭問你商品，不是因為你唯一會賣，而是他真正認同的人是你。</p></div></article>
+        <article class="chapter"><time>36:40–44:00</time><div><h3>六、把業務融入生活：吃喝玩樂也要有工作腦</h3><p>打麻將、運動、吃飯、聊天都可以認識新的人，但如果只是玩，就不要以為自己在工作。她的重點是：人在場，腦袋也要在工作上。所有生活議題幾乎都跟錢、風險、投資、保障有關，只是你有沒有能力自然接起來。</p></div></article>
+        <article class="chapter"><time>44:00–50:30</time><div><h3>七、投資前先談保障：不要讓客戶的存錢計畫被風險中斷</h3><p>她曾從儲蓄險轉向醫療保障，因為若客戶把錢都放進存錢工具，中途遇到疾病或意外，只能解約虧錢，業務就沒有真正幫到人。她的話術核心是：投資理財要能持續，必須先確認保障是否能保護這個計畫。</p></div></article>
+        <article class="chapter"><time>50:30–65:20</time><div><h3>八、挫折不是停止理由：目標大，問題會變小</h3><p>她提到撤件、住院、開刀、核保卡關等挫折。重點不是鼓勵硬撐，而是提醒：如果目標夠明確，你會比較快回到「怎麼解決」而不是停在情緒。情緒可以處理，但不要用處理情緒逃避問題。</p></div></article>
+        <article class="chapter"><time>65:20–75:40</time><div><h3>九、疫情、防疫險與社群：客戶找你，是因為你是那道光</h3><p>疫情期間客戶打電話問投保、理賠、隔離規定，代表他把你當成能解決問題的人。社群經營也是同樣邏輯：不是轉貼別人的內容，而是讓別人看到你的價值觀、立場、感受與專業態度。</p></div></article>
+        <article class="chapter"><time>75:40–84:10</time><div><h3>十、深耕與服務：客戶不多，也可以有高忠誠與高深度</h3><p>她提到自己的客戶數不是大量，但每個客戶都像朋友。她重視參與客戶生活，透過服務、理賠、車險、活動與日常關心，讓客戶願意繼續找她、介紹她、把家人的需求交給她。</p></div></article>
+        <article class="chapter"><time>84:10–90:40</time><div><h3>十一、把自己當一間店：每個月都要有主題</h3><p>如果自己開店，業績不好會做促銷、活動、節慶主題；業務也一樣。她舉情人節、感恩節、聖誕節等例子，重點是不要當「眾多業務之一」，而是用對位經營讓客戶記得你的用心。</p></div></article>
+        <article class="chapter"><time>90:40–96:51</time><div><h3>十二、個人行銷到團隊複利：主管要先有自己的標準</h3><p>她提到個人富邦之星有收入天花板，但當團隊也開始穩定產出，收入與影響力會出現複利。夥伴會看主管的背影長大，所以主管不能只要求別人，自己也要有穩定標準。</p></div></article>
+      </div>
+    </section>
+
+    <section id="checklist" class="note-card">
+      <p class="eyebrow">Interactive Tool 01</p>
+      <h2>富邦之星行動自評：今天就知道你卡在哪裡</h2>
+      <p>勾選你目前已經做到的項目。目標不是拿高分，而是找出本週最該補的缺口。</p>
+      <div class="checklist" id="checklistBox">
+        <label class="check-item"><input type="checkbox" data-check><span>我清楚知道自己這個月要達成的 FYC / 件數 / 新客戶標準。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我不是只說「沒名單」，我已經列出既有市場與未來市場。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我本週至少有 3 個明確約訪主題：問卷、保單健診、信用卡、產險、服務或商品。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我約訪時能做到「約什麼，就做什麼」，不會臨時硬切商品。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我有練習銷售自我，讓客戶認同我這個人。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我能先講觀念，再講保險工具，而不是一開始就塞商品。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我的社群內容有自己的立場、感受與價值觀，不只是轉貼公版。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我把產險、車險、理賠服務視為接觸機會，而不是低佣金雜事。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我知道這個月可以用什麼節慶或主題重新接觸客戶。</span></label>
+        <label class="check-item"><input type="checkbox" data-check><span>我是主管或準主管時，我的行為值得夥伴模仿。</span></label>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-ring" id="progressRing" style="--progress: 0%"><strong id="progressText">0%</strong></div>
+        <div>
+          <h3 id="progressTitle">先完成第一步：把目標寫清楚。</h3>
+          <p id="progressAdvice" class="muted">富邦之星不是靠感覺做完，而是先有本月標準，再倒推缺口與活動量。</p>
+          <div class="btn-row"><button class="note-btn secondary" id="resetChecklist">重設勾選</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner" class="note-card">
+      <p class="eyebrow">Interactive Tool 02</p>
+      <h2>本月達成計算機：把「想做到」變成「今天要做什麼」</h2>
+      <p>輸入你的本月目標與目前進度，它會幫你倒推出剩餘缺口與接下來每週要補的量。</p>
+      <div class="tool-panel">
+        <div class="field-grid">
+          <div><label for="targetFyc">本月目標 FYC</label><input id="targetFyc" type="number" value="50000" min="0"></div>
+          <div><label for="currentFyc">目前已核實 FYC</label><input id="currentFyc" type="number" value="0" min="0"></div>
+          <div><label for="daysLeft">距離月底剩幾天</label><input id="daysLeft" type="number" value="10" min="1"></div>
+        </div>
+        <div class="field-grid">
+          <div><label for="avgCase">平均每件 FYC</label><input id="avgCase" type="number" value="12000" min="1"></div>
+          <div><label for="closeRate">估計成交率 %</label><input id="closeRate" type="number" value="30" min="1" max="100"></div>
+          <div><label for="visitRate">約訪到見面率 %</label><input id="visitRate" type="number" value="50" min="1" max="100"></div>
+        </div>
+        <div class="btn-row"><button class="note-btn" id="calcPlan">產生本月作戰量</button></div>
+        <div class="result-box" id="calcResult">按下按鈕後，這裡會出現你的缺口、需要件數、建議書數與約訪量。</div>
+      </div>
+    </section>
+
+    <section id="script" class="note-card">
+      <p class="eyebrow">Interactive Tool 03</p>
+      <h2>約訪主題與開場產生器：不要再「對了，我跟你說……」</h2>
+      <p>選擇客戶狀態、約訪主題與語氣，產生可調整的開場。重點是讓對方知道今天要做什麼。</p>
+      <div class="tool-panel">
+        <div class="field-grid">
+          <div><label for="customerStage">客戶狀態</label><select id="customerStage"><option>久未聯絡的朋友</option><option>既有保戶</option><option>剛認識的新朋友</option><option>投資型客戶</option><option>產險/車險客戶</option><option>曾經拒絕過的人</option></select></div>
+          <div><label for="visitTopic">約訪主題</label><select id="visitTopic"><option>保單健診</option><option>理財問卷</option><option>信用卡 / 金控服務</option><option>車險 / 產險服務</option><option>醫療保障檢視</option><option>社群貼文延伸聊天</option></select></div>
+          <div><label for="tone">語氣</label><select id="tone"><option>自然朋友感</option><option>專業但不壓迫</option><option>主管複訓示範</option></select></div>
+        </div>
+        <div><label for="customReason">你想補充的理由</label><input id="customReason" placeholder="例如：最近公司有一個新的檢視表，我想拿你當樣本練習"></div>
+        <div class="btn-row"><button class="note-btn" id="makeScript">產生開場話術</button><button class="note-btn secondary" id="copyScript">複製話術</button></div>
+        <div class="result-box" id="scriptResult">請選擇條件後產生話術。</div>
+      </div>
+    </section>
+
+    <section id="pool" class="note-card">
+      <p class="eyebrow">Interactive Tool 04</p>
+      <h2>名單水池：把「不知道找誰」變成一張可追蹤清單</h2>
+      <p>這個清單只存在你的瀏覽器，不會上傳。建議複訓時讓同仁現場輸入 10 個人，當天就要排出下一步。</p>
+      <div class="tool-panel">
+        <div class="field-grid">
+          <div><label for="poolName">姓名 / 暱稱</label><input id="poolName" placeholder="例如：大學同學阿誠"></div>
+          <div><label for="poolRelation">關係</label><select id="poolRelation"><option>既有保戶</option><option>朋友</option><option>同學</option><option>親戚</option><option>同事/前同事</option><option>社群互動</option><option>產險/車險</option><option>新認識</option></select></div>
+          <div><label for="poolTopic">下一步主題</label><select id="poolTopic"><option>保單健診</option><option>問卷</option><option>信用卡</option><option>車險</option><option>理賠服務</option><option>投資前保障檢查</option><option>吃飯聊天</option><option>節慶關心</option></select></div>
+        </div>
+        <div><label for="poolNote">備註</label><input id="poolNote" placeholder="例如：最近換工作、有小孩、常看我的限動"></div>
+        <div class="btn-row"><button class="note-btn" id="addPool">加入水池</button><button class="note-btn secondary" id="clearPool">清空水池</button></div>
+        <div class="result-box" id="poolSummary">目前尚未新增名單。</div>
+        <div class="table-scroll"><table><thead><tr><th>姓名</th><th>關係</th><th>下一步主題</th><th>備註</th><th>操作</th></tr></thead><tbody id="poolRows"><tr><td colspan="5">尚無資料</td></tr></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="monthly" class="note-card">
+      <p class="eyebrow">Interactive Tool 05</p>
+      <h2>12 個月主題經營表：把自己當一間店</h2>
+      <p>課程中很重要的一句邏輯：如果你開店，業績不好會做活動；那你經營客戶，為什麼每個月沒有主題？</p>
+      <div class="tool-panel">
+        <div class="field-grid">
+          <div><label for="monthPick">選擇月份</label><select id="monthPick"><option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option></select></div>
+          <div><label for="clientType">客戶類型</label><select id="clientType"><option>年輕朋友</option><option>家庭客戶</option><option>投資型客戶</option><option>車險客戶</option><option>新手爸媽</option><option>高端客戶</option></select></div>
+          <div><label for="actionStyle">行動形式</label><select id="actionStyle"><option>LINE 關心</option><option>社群貼文</option><option>小禮物</option><option>約吃飯</option><option>保單檢視</option><option>小型活動</option></select></div>
+        </div>
+        <div class="btn-row"><button class="note-btn" id="makeMonthPlan">產生本月主題</button></div>
+        <div class="result-box" id="monthResult">選擇月份後產生主題。</div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>月份</th><th>可用主題</th><th>業務切入</th></tr></thead>
+          <tbody>
+            <tr><td>1月</td><td>新年目標、年度整理</td><td>年度保單總整理、家庭財務目標盤點</td></tr>
+            <tr><td>2月</td><td>過年、情人節</td><td>關係經營、遠距離伴侶小禮物、紅包規劃</td></tr>
+            <tr><td>3月</td><td>報稅準備、春季健檢</td><td>所得與保障回顧、醫療保障檢查</td></tr>
+            <tr><td>4月</td><td>兒童節、清明</td><td>新生兒保單、家庭責任與傳承話題</td></tr>
+            <tr><td>5月</td><td>母親節</td><td>媽媽保障、長照、家庭照顧責任</td></tr>
+            <tr><td>6月</td><td>年中檢視</td><td>半年財務健檢、投資前保障確認</td></tr>
+            <tr><td>7月</td><td>暑假旅遊</td><td>旅平險、親子活動、旅遊風險控管</td></tr>
+            <tr><td>8月</td><td>父親節</td><td>家庭支柱保障、房貸與責任額盤點</td></tr>
+            <tr><td>9月</td><td>開學季</td><td>教育金、家庭現金流、子女保障</td></tr>
+            <tr><td>10月</td><td>國慶、萬聖節</td><td>小活動、社群互動、年末前檢視邀約</td></tr>
+            <tr><td>11月</td><td>感恩節、光棍節</td><td>感謝保戶、單身族財務獨立、轉介紹</td></tr>
+            <tr><td>12月</td><td>聖誕節、年度收尾</td><td>年度回顧、明年保障與投資計畫</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="quiz" class="note-card">
+      <p class="eyebrow">Interactive Tool 06</p>
+      <h2>課後測驗：確認同仁有沒有抓到重點</h2>
+      <div id="quizBox"></div>
+      <div class="btn-row"><button class="note-btn" id="submitQuiz">送出測驗</button><button class="note-btn secondary" id="resetQuiz">重作一次</button></div>
+      <div class="result-box" id="quizResult">完成後送出，這裡會顯示分數與提醒。</div>
+    </section>
+
+    <section id="action" class="note-card">
+      <p class="eyebrow">Interactive Tool 07</p>
+      <h2>30 日行動承諾產生器</h2>
+      <p>這段是要讓同仁從「我知道了」走到「我這週要做」。填完可以截圖回報主管。</p>
+      <div class="tool-panel">
+        <div class="field-grid">
+          <div><label for="myTarget">我的 30 日標準</label><input id="myTarget" placeholder="例如：5C / 3件新客戶 / 20訪"></div>
+          <div><label for="myWeakness">我最弱的一環</label><select id="myWeakness"><option>名單盤點</option><option>約訪開口</option><option>銷售自我</option><option>需求分析</option><option>建議書追蹤</option><option>社群曝光</option><option>服務轉換</option></select></div>
+          <div><label for="myReportDay">每週回報日</label><select id="myReportDay"><option>週一</option><option>週二</option><option>週三</option><option>週四</option><option>週五</option><option>週六</option><option>週日</option></select></div>
+        </div>
+        <div><label for="myPromise">我願意承諾的一句話</label><input id="myPromise" placeholder="例如：我不再說沒有名單，我先把接觸方式做出來"></div>
+        <div class="btn-row"><button class="note-btn" id="makeAction">產生 30 日計畫</button><button class="note-btn secondary" onclick="window.print()">列印 / 存成 PDF</button></div>
+        <div class="result-box" id="actionResult">按下按鈕後產生你的 30 日計畫。</div>
+      </div>
+    </section>
+
+    <section id="coach" class="note-card">
+      <p class="eyebrow">Manager Replay</p>
+      <h2>主管複訓帶領流程：45 分鐘版本</h2>
+      <div class="grid-2">
+        <div class="mini-card"><b>0–5 分鐘｜開場提問</b><span>「你覺得富邦之星靠的是大單、運氣，還是每個月的低標系統？」請每人選一個答案。</span></div>
+        <div class="mini-card"><b>5–15 分鐘｜名單水池</b><span>每人現場寫 10 個人，不准寫「沒有」。分類：既有市場、未來市場、服務入口。</span></div>
+        <div class="mini-card"><b>15–25 分鐘｜約訪主題演練</b><span>兩人一組，用本頁產生器練三種主題：保單健診、信用卡、車險服務。</span></div>
+        <div class="mini-card"><b>25–35 分鐘｜認同三層拆解</b><span>請每人寫：客戶現在認同我哪一點？還不認同哪一點？我要用什麼行動補？</span></div>
+        <div class="mini-card"><b>35–42 分鐘｜30 日承諾</b><span>填寫 30 日行動承諾，產生計畫後截圖回群組。</span></div>
+        <div class="mini-card"><b>42–45 分鐘｜主管收斂</b><span>主管只收三個數字：本月缺口、下週約訪量、每人下一個見面對象。</span></div>
+      </div>
+      <p class="print-note">列印版提醒：請主管複訓時要求每位同仁填寫本月缺口、名單水池與 30 日承諾。</p>
+    </section>
+  </main>
+
+  <script>
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    function updateChecklist(){
+      const boxes = $$('[data-check]');
+      const checked = boxes.filter(b=>b.checked).length;
+      const pct = Math.round((checked / boxes.length) * 100);
+      $('#progressRing').style.setProperty('--progress', pct + '%');
+      $('#progressText').textContent = pct + '%';
+      const title = $('#progressTitle');
+      const advice = $('#progressAdvice');
+      if (pct < 30) { title.textContent = '先不要談技巧，先把基本動作補起來。'; advice.textContent = '本週只抓三件事：寫目標、列 20 名單、約 3 個明確主題。'; }
+      else if (pct < 60) { title.textContent = '你已經有方向，下一步是把接觸量做出來。'; advice.textContent = '請檢查你是否有把信用卡、車險、服務、社群都變成活動量。'; }
+      else if (pct < 85) { title.textContent = '你接近穩定產出，重點是每週追蹤。'; advice.textContent = '把本月缺口換算成每天約訪量，並固定回報主管。'; }
+      else { title.textContent = '你已具備富邦之星習慣雛形。'; advice.textContent = '下一步不是只做個人業績，而是把你的方法複製給夥伴。'; }
+      localStorage.setItem('fubonChecklist', JSON.stringify(boxes.map(b=>b.checked)));
+    }
+    $$('[data-check]').forEach((b,i)=> b.addEventListener('change', updateChecklist));
+    try { const saved = JSON.parse(localStorage.getItem('fubonChecklist') || '[]'); $$('[data-check]').forEach((b,i)=> b.checked = !!saved[i]); } catch(e) {}
+    updateChecklist();
+    $('#resetChecklist').addEventListener('click', ()=> { $$('[data-check]').forEach(b=>b.checked=false); updateChecklist(); });
+
+    $('#calcPlan').addEventListener('click', ()=>{
+      const target = Number($('#targetFyc').value || 0);
+      const current = Number($('#currentFyc').value || 0);
+      const days = Math.max(1, Number($('#daysLeft').value || 1));
+      const avgCase = Math.max(1, Number($('#avgCase').value || 1));
+      const closeRate = Math.max(1, Number($('#closeRate').value || 1)) / 100;
+      const visitRate = Math.max(1, Number($('#visitRate').value || 1)) / 100;
+      const gap = Math.max(0, target - current);
+      const needCases = Math.ceil(gap / avgCase);
+      const needProposal = Math.ceil(needCases / closeRate);
+      const needInvite = Math.ceil(needProposal / visitRate);
+      const perDayInvite = Math.ceil(needInvite / days);
+      const tone = gap === 0 ? '你目前已達標，接下來可以開始為下個月建立水池。' : `你還缺 ${gap.toLocaleString()} FYC，建議至少準備 ${needProposal} 份建議書、${needInvite} 個約訪邀請。`;
+      $('#calcResult').textContent = `本月作戰量\n\n${tone}\n\n倒推數字：\n・需要成交件數：約 ${needCases} 件\n・需要建議書：約 ${needProposal} 份\n・需要約訪邀請：約 ${needInvite} 人\n・剩 ${days} 天，平均每天至少邀約 ${perDayInvite} 人\n\n今天優先順序：\n1. 先找最容易見面的人，不要先挑最難的。\n2. 約訪主題要明確：問卷、保單健診、信用卡、車險、理賠服務。\n3. 每天收盤前回報：邀約幾人、見面幾人、建議書幾份。`;
+    });
+
+    const topicLines = {
+      '保單健診': '我想幫你把現在手上的保障整理成一張表，不會一開始就推商品，先讓你知道缺口跟重複在哪裡。',
+      '理財問卷': '我最近在整理不同年齡層的理財習慣，想請你幫我填一份問卷，也順便幫你看你的規劃有沒有容易中斷的地方。',
+      '信用卡 / 金控服務': '我想用金控服務幫你做一個簡單整理，信用卡本身不是重點，重點是看看有沒有你用得到的資源。',
+      '車險 / 產險服務': '我想幫你看一下車險內容，尤其是理賠跟事故處理，這件事通常出事時才會發現差很多。',
+      '醫療保障檢視': '如果你未來想穩定存錢或投資，我會建議先看醫療保障，避免中間發生事情讓計畫被迫中斷。',
+      '社群貼文延伸聊天': '你前幾天有回我那篇限動，我覺得你提到的點很值得聊，想找你喝咖啡順便交換想法。'
+    };
+    $('#makeScript').addEventListener('click', ()=>{
+      const stage = $('#customerStage').value;
+      const topic = $('#visitTopic').value;
+      const tone = $('#tone').value;
+      const reason = $('#customReason').value.trim();
+      const opener = tone === '主管複訓示範' ? '我示範一個比較不尷尬的約法：' : '嗨，最近想找你聊一下。';
+      const extra = reason ? `\n\n我找你的原因是：${reason}` : '';
+      $('#scriptResult').textContent = `${opener}\n\n對象：${stage}\n主題：${topic}\n\n「${stage.includes('久未') ? '好久不見，我不是突然要推你什麼東西。' : '我想跟你約一個明確的小主題。'}${topicLines[topic]}\n\n這次見面我會先把 ${topic} 做完，如果後面有延伸問題，我們再另外約時間談，這樣你也比較不會有壓力。」${extra}\n\n提醒：講完之後不要急著補一堆商品，先停下來讓對方回應。`;
+    });
+    $('#copyScript').addEventListener('click', async ()=>{
+      try { await navigator.clipboard.writeText($('#scriptResult').textContent); $('#copyScript').textContent='已複製'; setTimeout(()=>$('#copyScript').textContent='複製話術', 1200); } catch(e) {}
+    });
+
+    let pool = [];
+    try { pool = JSON.parse(localStorage.getItem('fubonPool') || '[]'); } catch(e) { pool = []; }
+    function savePool(){ localStorage.setItem('fubonPool', JSON.stringify(pool)); renderPool(); }
+    function renderPool(){
+      const tbody = $('#poolRows');
+      if(!pool.length){ tbody.innerHTML = '<tr><td colspan="5">尚無資料</td></tr>'; $('#poolSummary').textContent='目前尚未新增名單。'; return; }
+      tbody.innerHTML = pool.map((p,i)=>`<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.relation)}</td><td>${escapeHtml(p.topic)}</td><td>${escapeHtml(p.note)}</td><td><button class="note-btn secondary" data-del="${i}">刪除</button></td></tr>`).join('');
+      const byTopic = pool.reduce((acc,p)=> (acc[p.topic]=(acc[p.topic]||0)+1, acc), {});
+      $('#poolSummary').textContent = `目前水池 ${pool.length} 人。主題分布：` + Object.entries(byTopic).map(([k,v])=>`${k} ${v}人`).join('、');
+      $$('[data-del]').forEach(btn=>btn.addEventListener('click', ()=>{ pool.splice(Number(btn.dataset.del),1); savePool(); }));
+    }
+    function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+    $('#addPool').addEventListener('click', ()=>{
+      const name = $('#poolName').value.trim();
+      if(!name){ $('#poolName').focus(); return; }
+      pool.push({ name, relation: $('#poolRelation').value, topic: $('#poolTopic').value, note: $('#poolNote').value.trim() });
+      $('#poolName').value=''; $('#poolNote').value=''; savePool();
+    });
+    $('#clearPool').addEventListener('click', ()=>{ if(confirm('確定清空名單水池？')){ pool=[]; savePool(); }});
+    renderPool();
+
+    const monthThemes = {
+      1:['新年目標','年度保單總整理','請客戶寫下今年最想完成的一件事，再連到財務安全感。'],
+      2:['情人節 / 過年','關係經營','挑 5 位你知道需要被關心的人，不要群發，寫一段專屬訊息。'],
+      3:['春季健檢','醫療保障檢查','用健康檢查、報稅資料整理，切入保障缺口。'],
+      4:['兒童節 / 清明','家庭責任','從小孩、父母、傳承與家庭責任切入。'],
+      5:['母親節','照顧者保障','關心媽媽與主要照顧者，延伸重大傷病、長照、醫療。'],
+      6:['年中檢視','半年財務整理','回顧上半年收入、支出、保費與投資進度。'],
+      7:['暑假旅遊','旅平險與家庭活動','出國旅遊、親子活動、意外風險是自然切入。'],
+      8:['父親節','家庭支柱責任','談房貸、家庭責任額、收入中斷風險。'],
+      9:['開學季','教育金與家庭現金流','新手爸媽與家庭客戶適用。'],
+      10:['萬聖節 / 國慶','輕活動與社群互動','做有趣投票或小活動，重啟沉睡名單。'],
+      11:['感恩節 / 光棍節','感謝與單身族規劃','感謝保戶、請轉介紹；單身族談財務獨立。'],
+      12:['聖誕節 / 年末','年度回顧與明年計畫','做年度保單回顧，約明年第一次檢視。']
+    };
+    $('#makeMonthPlan').addEventListener('click', ()=>{
+      const m = $('#monthPick').value, c = $('#clientType').value, a = $('#actionStyle').value;
+      const [theme, angle, detail] = monthThemes[m];
+      $('#monthResult').textContent = `${m}月主題：${theme}\n客戶類型：${c}\n行動形式：${a}\n\n建議切入：${angle}\n\n執行方式：${detail}\n\n本週作業：挑 10 位符合「${c}」的人，用「${a}」做第一次接觸；不要一次塞商品，先讓對方感受到你有記得他。`;
+    });
+
+    const quiz = [
+      {q:'課程中最核心的名單觀念是什麼？', a:['真正的問題通常不是沒有名單，而是不知道怎麼接觸','只要陌生開發就一定有業績','名單不夠就先不要工作'], correct:0},
+      {q:'「約什麼，就做什麼」的目的主要是什麼？', a:['讓對方有心理準備，也讓自己不尷尬','避免自己花太多時間準備','讓客戶不能拒絕成交'], correct:0},
+      {q:'她把類 NPSS 裡哪一個環節放在銷售前面？', a:['認同','價格比較','禮物服務'], correct:0},
+      {q:'信用卡、產險、服務在課程中的定位，比較接近哪一種？', a:['創造見面與信任的入口','低佣金所以不重要','只適合新人練習'], correct:0},
+      {q:'社群經營最該避免什麼？', a:['只轉貼別人的內容，沒有自己的觀點','發太多自己的感受','讓客戶知道你在工作'], correct:0},
+      {q:'主管想帶團隊做出富邦之星文化，最重要的是？', a:['自己先有穩定標準，讓夥伴看見背影','每天罵人就好','只要求新人做，主管不用做'], correct:0}
+    ];
+    function renderQuiz(){
+      $('#quizBox').innerHTML = quiz.map((item,i)=>`<div class="quiz-question"><h3>${i+1}. ${item.q}</h3><div class="quiz-options">${item.a.map((opt,j)=>`<div class="quiz-option" data-q="${i}" data-a="${j}">${opt}</div>`).join('')}</div></div>`).join('');
+      $$('.quiz-option').forEach(opt=>opt.addEventListener('click', ()=>{ $$(`.quiz-option[data-q="${opt.dataset.q}"]`).forEach(o=>o.classList.remove('selected')); opt.classList.add('selected'); }));
+      $('#quizResult').textContent = '完成後送出，這裡會顯示分數與提醒。';
+    }
+    renderQuiz();
+    $('#submitQuiz').addEventListener('click', ()=>{
+      let score=0, missing=[];
+      quiz.forEach((item,i)=>{ const sel=$(`.quiz-option.selected[data-q="${i}"]`); if(sel && Number(sel.dataset.a)===item.correct) score++; else missing.push(i+1); });
+      const pct=Math.round(score/quiz.length*100);
+      $('#quizResult').textContent = `得分：${score}/${quiz.length}（${pct}%）\n\n${pct>=80?'你已抓到主軸，可以進入行動計畫。':'建議回看章節筆記，尤其是第 '+missing.join('、')+' 題相關段落。'}\n\n複訓提醒：測驗不是為了考倒同仁，而是確認他是否真的知道下一步怎麼做。`;
+    });
+    $('#resetQuiz').addEventListener('click', renderQuiz);
+
+    $('#makeAction').addEventListener('click', ()=>{
+      const target=$('#myTarget').value.trim()||'尚未填寫';
+      const weakness=$('#myWeakness').value;
+      const day=$('#myReportDay').value;
+      const promise=$('#myPromise').value.trim()||'我會把知道變成做到。';
+      $('#actionResult').textContent = `我的 30 日富邦之星行動承諾\n\n目標：${target}\n最弱的一環：${weakness}\n每週回報：${day}\n承諾句：${promise}\n\n第 1 週｜補基本盤\n・列出 50 位名單，至少分類成既有市場、未來市場、服務入口。\n・每天 3 個約訪邀請，主題必須明確。\n・社群至少 3 則，不轉貼公版，要有自己的感受與立場。\n\n第 2 週｜創造見面\n・完成 5 次見面或線上深談。\n・至少使用 2 種入口：保單健診、信用卡、產險、理賠服務、問卷。\n・每次見面後 24 小時內寫下下一步。\n\n第 3 週｜推進建議書\n・把已見面的人分成：可建議書、需培養、需服務。\n・針對可建議書名單安排第二訪。\n・練習先講觀念，再講保險工具。\n\n第 4 週｜收斂與複盤\n・回顧本月達成率、約訪率、成交率。\n・挑 3 個客戶做深耕服務。\n・整理下個月水池，不讓月底重新歸零。`;
+    });
+  </script>
+</body>
+</html>

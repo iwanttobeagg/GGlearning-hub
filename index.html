@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="TP799 主管訓練知識庫：整合 06/09 至 09/01 共 13 堂課、互動筆記、能力地圖、講師資訊與學習狀態。" />
+  <meta name="theme-color" content="#0d1b2a" />
+  <title>TP799 Learning Hub｜訓練課程知識庫</title>
+  <link rel="icon" href="assets/brand-mark.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css?v=20260623-full" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="site-header">
+    <nav class="topbar" aria-label="主選單">
+      <a class="brand" href="#top" aria-label="回到首頁">
+        <span class="brand-mark">TP</span>
+        <span class="brand-text">
+          <strong>TP799 Learning Hub</strong>
+          <small>主管訓練・課程筆記・能力地圖</small>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <a class="ghost-link" href="#courses">課程目錄</a>
+        <a class="ghost-link" href="#roadmap">能力地圖</a>
+      </div>
+    </nav>
+
+    <section id="top" class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow">Sales Training Knowledge System</p>
+        <h1>把每一堂訓練，整理成團隊可以重複使用的知識資產。</h1>
+        <p class="hero-text">用一頁網站整合 06/09 至 09/01 共 13 堂訓練課、筆記狀態、講師與能力分類。已完成的逐字稿可整理成互動筆記，讓同仁能自評、練習、產出行動計畫。</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#courses">開始瀏覽課程</a>
+          <a class="secondary-button" href="#edit-guide">我要修改資料</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="訓練進度總覽">
+        <div class="panel-topline">
+          <span>2026 Training Track</span>
+          <strong id="progressPercent">0%</strong>
+        </div>
+        <div class="progress-shell" aria-hidden="true"><span id="progressBar"></span></div>
+        <div class="metric-grid" id="metricGrid"></div>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section class="container control-section" aria-label="搜尋與篩選">
+      <div class="control-card">
+        <div class="search-box">
+          <label for="searchInput">搜尋課程、講師、標籤</label>
+          <div class="search-input-wrap">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10.7 18.2a7.5 7.5 0 1 1 5.3-2.2l4 4a1 1 0 0 1-1.4 1.4l-4-4a7.47 7.47 0 0 1-3.9 1.1Zm0-2a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg>
+            <input id="searchInput" type="search" placeholder="例如：富邦之星、九宮格、社群開發、投資財富、李孟珊" autocomplete="off" />
+          </div>
+        </div>
+        <div class="filter-block">
+          <p>狀態篩選</p>
+          <div class="chip-row" id="statusChips"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="container section-block">
+      <div class="section-heading">
+        <p class="eyebrow">Capability Map</p>
+        <h2>能力地圖</h2>
+        <p>把課程放進能力分類，團隊就知道每一堂課是在補哪一塊能力。</p>
+      </div>
+      <div class="path-grid" id="pathGrid"></div>
+    </section>
+
+    <section id="courses" class="container section-block">
+      <div class="section-heading split-heading">
+        <div>
+          <p class="eyebrow">Course Catalog</p>
+          <h2>課程目錄</h2>
+          <p id="resultSummary">正在整理課程...</p>
+        </div>
+        <button class="text-button" id="resetButton" type="button">清除篩選</button>
+      </div>
+      <div class="course-mount" id="courseMount"></div>
+    </section>
+
+    <section id="edit-guide" class="container section-block edit-guide">
+      <div class="guide-card">
+        <div>
+          <p class="eyebrow">Edit Guide</p>
+          <h2>之後怎麼更新？</h2>
+          <p>打開 <code>js/main.js</code>，修改最上方的 <code>courses</code> 陣列。新增課程、講師、網址、標籤都在那裡改。上傳到 GitHub 後，GitHub Pages 會自動更新。</p>
+        </div>
+        <pre><code>{
+  no: 14,
+  date: '09/08',
+  month: '09',
+  title: '新課程名稱',
+  lecturer: '講師姓名',
+  role: '職稱',
+  status: 'planned',
+  ability: 'recruiting',
+  url: '',
+  desc: '這堂課要解決什麼問題',
+  tags: ['標籤一', '標籤二']
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>TP799 Learning Hub</p>
+      <p>Built for GitHub Pages・Static HTML / CSS / JavaScript</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20260623-full"></script>
+</body>
+</html>
