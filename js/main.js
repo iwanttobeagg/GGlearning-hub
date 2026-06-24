@@ -68,11 +68,13 @@ const courses = [
     title: '目標設定、心態調整',
     lecturer: '簡宏鈞',
     role: '處經理',
-    status: 'done',
+    status: 'ready',
     ability: 'mindset',
-    url: '',
-    desc: '建立業務工作的目標感與心態底盤，把想要的結果拆成可追蹤的行動節奏。',
-    tags: ['目標設定', '心態調整', '行動紀律']
+    url: 'notes/goal-setting-0609/index.html',
+    assetType: 'interactive',
+    linkLabel: '查看互動筆記',
+    desc: '把目標設定、拖延診斷、SMART 拆解與 21 天飛輪做成可執行的行動系統。',
+    tags: ['目標設定', '心態調整', '拖延診斷', 'SMART', '飛輪效應']
   },
   {
     no: 2,
@@ -96,7 +98,7 @@ const courses = [
     role: '業務經理',
     status: 'ready',
     ability: 'star',
-    url: 'notes/fubon-star-0623/',
+    url: 'notes/fubon-star-0623/index.html',
     assetType: 'interactive',
     linkLabel: '查看互動筆記',
     desc: '把富邦之星拆成可執行的穩定績效系統：認同、約訪主題、名單水池、客戶經營與 30 日行動。',
