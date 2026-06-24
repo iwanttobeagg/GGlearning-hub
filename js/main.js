@@ -1,4 +1,4 @@
-// TP799 Learning Hub
+// GG Li Learning Hub
 // 修改課程只需要編輯 courses 陣列。status 可用：done / next / planned
 
 const abilities = {
