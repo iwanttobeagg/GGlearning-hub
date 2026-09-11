@@ -1,15 +1,10 @@
 {
-  "updated_at": "2026-09-11 10:19",
-  "fx": {
-    "source": "臺灣銀行即期匯率",
-    "usd_twd_buy": 31.595,
-    "usd_twd_sell": 31.695,
-    "date": "2026-09-11"
-  },
-  "funds": {
-    "DSP5": {"name":"安聯收益成長基金-AM穩定月收類股(美元)","nav":8.4828,"nav_date":"2026-09-10","distribution":0.055,"distribution_date":"2026-08-17"},
-    "DST3": {"name":"安聯AI收益成長多重資產證券投資信託基金-B類型(月配息)-美元","nav":12.68,"nav_date":"2026-09-09","distribution":0.088,"distribution_date":"2026-08-28"},
-    "JFP11": {"name":"摩根投資基金 - 多重收益基金 - JPM多重收益(美元對沖) - A股(穩定月配)","nav":73.42,"nav_date":"2026-09-10","distribution":0.685,"distribution_date":"2026-09-09"},
-    "NGB1": {"name":"高盛基金III - 高盛環球非投資等級債券基金X股美元(月配息)","nav":37.11,"nav_date":"2026-09-10","distribution":0.51,"distribution_date":"2026-09-02"}
+  "updated_at":"2026-09-11 10:19",
+  "fx":{"source":"臺灣銀行即期匯率","usd_twd_buy":31.595,"usd_twd_sell":31.695,"date":"2026-09-11"},
+  "funds":{
+    "DSP5":{"name":"安聯收益成長基金-AM穩定月收類股(美元)","nav":8.5438,"nav_date":"2026-09-09","distribution":0.055,"distribution_date":"2026-08-17"},
+    "DST3":{"name":"安聯AI收益成長多重資產基金-B類型(月配息)-美元","nav":12.68,"nav_date":"2026-09-09","distribution":0.088,"distribution_date":"2026-08-28"},
+    "JFP11":{"name":"摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)","nav":73.92,"nav_date":"2026-09-09","distribution":0.685,"distribution_date":"2026-09-09"},
+    "NGB1":{"name":"高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)","nav":37.26,"nav_date":"2026-09-09","distribution":0.51,"distribution_date":"2026-09-02"}
   }
 }
