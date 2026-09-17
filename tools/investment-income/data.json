@@ -1,12 +1,57 @@
 {
-  "updated_at":"2026-09-11 14:05",
-  "fx":{"source":"臺灣銀行即期匯率","usd_twd_buy":31.595,"usd_twd_sell":31.695,"date":"2026-09-11"},
-  "funds":{
-    "DSP5":{"name":"安聯收益成長基金-AM穩定月收類股(美元)","nav":8.5438,"nav_date":"2026-09-09","distribution":0.055,"distribution_date":"2026-08-17"},
-    "DST3":{"name":"安聯AI收益成長多重資產基金-B類型(月配息)-美元","nav":12.68,"nav_date":"2026-09-09","distribution":0.088,"distribution_date":"2026-08-28"},
-    "JFP11":{"name":"摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)","nav":73.92,"nav_date":"2026-09-09","distribution":0.685,"distribution_date":"2026-09-09"},
-    "NGB1":{"name":"高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)","nav":37.26,"nav_date":"2026-09-09","distribution":0.51,"distribution_date":"2026-09-02"},
-    "MLE24":{"name":"貝萊德世界科技基金A10美元(總報酬穩定配息)","nav":21.20,"nav_date":"2026-09-09","distribution":0.153,"distribution_date":"2026-08-31"},
-    "ACE17":{"name":"聯博–美國成長基金AP(總報酬月配)級別美元","nav":71.41,"nav_date":"2026-09-09","distribution":0.8322,"distribution_date":"2026-08-31"}
+  "updated_at": "2026-09-17 09:05",
+  "fx": {
+    "source": "臺灣銀行即期匯率",
+    "usd_twd_buy": 31.595,
+    "usd_twd_sell": 31.695,
+    "date": "2026-09-11"
+  },
+  "funds": {
+    "DSP5": {
+      "name": "安聯收益成長基金-AM穩定月收類股(美元)",
+      "nav": 8.3825,
+      "nav_date": "2026-09-15",
+      "distribution": 0.055,
+      "distribution_date": "2026-09-15"
+    },
+    "DST3": {
+      "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
+      "nav": 12.33,
+      "nav_date": "2026-09-15",
+      "distribution": 0.088,
+      "distribution_date": "2026-08-28"
+    },
+    "JFP11": {
+      "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
+      "nav": 73.05,
+      "nav_date": "2026-09-15",
+      "distribution": 0.685,
+      "distribution_date": "2026-09-09"
+    },
+    "NGB1": {
+      "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
+      "nav": 36.9,
+      "nav_date": "2026-09-15",
+      "distribution": 0.51,
+      "distribution_date": "2026-09-02"
+    },
+    "MLE24": {
+      "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
+      "nav": 20.54,
+      "nav_date": "2026-09-16",
+      "distribution": 0.153,
+      "distribution_date": "2026-08-31"
+    },
+    "ACE17": {
+      "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
+      "nav": 70.65,
+      "nav_date": "2026-09-16",
+      "distribution": 0.8322,
+      "distribution_date": "2024-07-31"
+    }
+  },
+  "refresh_status": "partial",
+  "refresh_errors": {
+    "FX": "USD spot rates not found on Bank of Taiwan page"
   }
 }
