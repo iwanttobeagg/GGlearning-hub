@@ -1,4 +1,4 @@
-name: Update investment income data
+name: Update investment fund data
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 jobs:
-  refresh:
+  refresh-funds:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,8 +30,8 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
-      - name: Refresh fund and FX data
-        run: python tools/investment-income/update_data.py
+      - name: Refresh fund NAV and distributions
+        run: python tools/investment-income/update_data.py --funds-only
 
       - name: Commit updated data
         run: |
@@ -41,6 +41,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Update investment income data"
+            git commit -m "Update investment fund data"
             git push
           fi
