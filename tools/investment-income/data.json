@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17 09:05",
+  "updated_at": "2026-09-17 09:09",
   "fx": {
     "source": "臺灣銀行即期匯率",
     "usd_twd_buy": 31.595,
@@ -52,6 +52,6 @@
   },
   "refresh_status": "partial",
   "refresh_errors": {
-    "FX": "USD spot rates not found on Bank of Taiwan page"
+    "FX": "USD spot rates not found in BOT HTML; USD spot rates not found in BOT CSV"
   }
 }
