@@ -1,0 +1,46 @@
+name: Update investment FX data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/update-investment-fx.yml'
+      - 'tools/investment-income/update_data.py'
+  schedule:
+    # 04:00 UTC = 12:00 Asia/Taipei, every day
+    - cron: '0 4 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-fx:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Refresh USD/TWD spot rate
+        run: python tools/investment-income/update_data.py --fx-only
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/investment-income/data.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update investment FX data"
+            git push
+          fi
