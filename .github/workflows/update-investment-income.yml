@@ -2,9 +2,15 @@ name: Update investment income data
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/update-investment-income.yml'
+      - 'tools/investment-income/update_data.py'
   schedule:
-    # 00:15 UTC = 08:15 Asia/Taipei, every day
-    - cron: '15 0 * * *'
+    # 10:00 UTC = 18:00 Asia/Taipei, every day
+    - cron: '0 10 * * *'
 
 permissions:
   contents: write
