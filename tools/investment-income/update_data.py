@@ -1,3 +1,4 @@
+import argparse
 import json
 import re
 from datetime import datetime
@@ -47,9 +48,14 @@ DATE_RE = re.compile(r"^(?:(\d{4})[/-])?(\d{1,2})[/-](\d{1,2})$")
 NUM_RE = re.compile(r"^-?\d+(?:\.\d+)?$")
 
 
-def get_soup(url: str) -> BeautifulSoup:
+def get_response(url: str) -> requests.Response:
     r = requests.get(url, headers=HEADERS, timeout=30)
     r.raise_for_status()
+    return r
+
+
+def get_soup(url: str) -> BeautifulSoup:
+    r = get_response(url)
     if not r.encoding or r.encoding.lower() == "iso-8859-1":
         r.encoding = r.apparent_encoding
     return BeautifulSoup(r.text, "html.parser")
@@ -68,7 +74,6 @@ def normalize_date(raw: str) -> str:
     now = datetime.now(TZ)
     if y is None:
         year = now.year
-        # Handles the year boundary if a December row is seen in January.
         if int(mm) > now.month + 1:
             year -= 1
     else:
@@ -84,7 +89,6 @@ def parse_nav(url: str):
             continue
         if DATE_RE.match(cells[0]) and NUM_RE.match(cells[1].replace(",", "")):
             return float(cells[1].replace(",", "")), normalize_date(cells[0])
-    # Fallback for pages whose table markup is flattened.
     text = clean(soup.get_text(" ", strip=True))
     m = re.search(r"((?:\d{4}[/-])?\d{1,2}[/-]\d{1,2})\s+([0-9]+(?:\.[0-9]+)?)", text)
     if not m:
@@ -101,16 +105,13 @@ def parse_distribution(url: str):
         date_indexes = [i for i, c in enumerate(cells) if DATE_RE.match(c)]
         if not date_indexes:
             continue
-        # Use the last date on the row as the ex-dividend date where available.
         date_idx = date_indexes[-1]
         ex_date = normalize_date(cells[date_idx])
-        # Prefer the numeric field immediately before a USD/currency cell.
         for i, c in enumerate(cells):
             if ("美元" in c or c.upper() == "USD") and i > 0:
                 prev = cells[i - 1].replace(",", "")
                 if NUM_RE.match(prev):
                     return float(prev), ex_date
-        # Otherwise pick the first positive decimal after the date/status fields.
         for c in cells[date_idx + 1 :]:
             x = c.replace(",", "")
             if NUM_RE.match(x):
@@ -124,39 +125,71 @@ def parse_distribution(url: str):
     return float(m.group(2)), normalize_date(m.group(1))
 
 
-def parse_bot_fx():
-    url = "https://rate.bot.com.tw/xrt?Lang=zh-TW"
-    soup = get_soup(url)
+def parse_bot_fx_html():
+    soup = get_soup("https://rate.bot.com.tw/xrt?Lang=zh-TW")
     for tr in soup.find_all("tr"):
         txt = clean(tr.get_text(" ", strip=True))
         if "美金" not in txt or "USD" not in txt:
             continue
-        nums = []
-        for td in tr.find_all("td"):
-            s = clean(td.get_text(" ", strip=True)).replace(",", "")
-            if NUM_RE.match(s):
-                nums.append(float(s))
+        # BOT order on the USD row: cash buy, cash sell, spot buy, spot sell.
+        nums = [float(x) for x in re.findall(r"(?<!\d)(\d+(?:\.\d+)?)(?!\d)", txt)]
+        nums = [x for x in nums if 20 <= x <= 50]
         if len(nums) >= 4:
-            # BOT order: cash buy, cash sell, spot buy, spot sell.
-            return nums[2], nums[3], datetime.now(TZ).strftime("%Y-%m-%d")
-    raise RuntimeError("USD spot rates not found on Bank of Taiwan page")
+            return nums[2], nums[3]
+    raise RuntimeError("USD spot rates not found in BOT HTML")
 
 
-def main():
-    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-    errors = {}
+def parse_bot_fx_csv():
+    r = get_response("https://rate.bot.com.tw/xrt/flcsv/0/day")
+    raw = r.content
+    text = None
+    for enc in ("utf-8-sig", "big5", "cp950", "utf-8"):
+        try:
+            candidate = raw.decode(enc)
+        except Exception:
+            continue
+        if "USD" in candidate:
+            text = candidate
+            break
+    if text is None:
+        text = raw.decode("utf-8", errors="replace")
+    for line in text.splitlines():
+        if "USD" not in line:
+            continue
+        nums = [float(x) for x in re.findall(r"(?<!\d)(\d+(?:\.\d+)?)(?!\d)", line)]
+        nums = [x for x in nums if 20 <= x <= 50]
+        if len(nums) >= 4:
+            return nums[2], nums[3]
+    raise RuntimeError("USD spot rates not found in BOT CSV")
 
+
+def parse_bot_fx():
+    errors = []
+    for fn in (parse_bot_fx_html, parse_bot_fx_csv):
+        try:
+            buy, sell = fn()
+            return buy, sell, datetime.now(TZ).strftime("%Y-%m-%d")
+        except Exception as e:
+            errors.append(str(e))
+    raise RuntimeError("; ".join(errors))
+
+
+def update_fx(data: dict, errors: dict):
     try:
         buy, sell, fx_date = parse_bot_fx()
+        now = datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
         data["fx"] = {
             "source": "臺灣銀行即期匯率",
             "usd_twd_buy": buy,
             "usd_twd_sell": sell,
             "date": fx_date,
+            "updated_at": now,
         }
     except Exception as e:
         errors["FX"] = str(e)
 
+
+def update_funds(data: dict, errors: dict):
     for code, src in FUNDS.items():
         fund = data["funds"][code]
         try:
@@ -171,6 +204,23 @@ def main():
             fund["distribution_date"] = dist_date
         except Exception as e:
             errors[f"{code}_distribution"] = str(e)
+    data["funds_updated_at"] = datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--fx-only", action="store_true")
+    group.add_argument("--funds-only", action="store_true")
+    args = parser.parse_args()
+
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    errors = {}
+
+    if not args.funds_only:
+        update_fx(data, errors)
+    if not args.fx_only:
+        update_funds(data, errors)
 
     data["updated_at"] = datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
     data["refresh_status"] = "partial" if errors else "ok"
