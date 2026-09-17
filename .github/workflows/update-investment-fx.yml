@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - '.github/workflows/update-investment-fx.yml'
-      - 'tools/investment-income/update_data.py'
+      - 'tools/investment-income/update_fx.py'
   schedule:
     # 04:00 UTC = 12:00 Asia/Taipei, every day
     - cron: '0 4 * * *'
@@ -31,7 +31,7 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Refresh USD/TWD spot rate
-        run: python tools/investment-income/update_data.py --fx-only
+        run: python tools/investment-income/update_fx.py
 
       - name: Commit updated data
         run: |
