@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20 16:54",
+  "updated_at": "2026-09-20 21:53",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -54,5 +54,5 @@
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-09-19 21:38"
+  "funds_updated_at": "2026-09-20 21:53"
 }
