@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-23 16:55",
+  "updated_at": "2026-09-23 22:36",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -11,48 +11,48 @@
   "funds": {
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
-      "nav": 8.4596,
-      "nav_date": "2026-09-21",
+      "nav": 8.5023,
+      "nav_date": "2026-09-22",
       "distribution": 0.055,
       "distribution_date": "2026-09-15"
     },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
-      "nav": 12.73,
-      "nav_date": "2026-09-21",
+      "nav": 12.77,
+      "nav_date": "2026-09-22",
       "distribution": 0.088,
       "distribution_date": "2026-08-28"
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
-      "nav": 73.51,
-      "nav_date": "2026-09-21",
+      "nav": 73.72,
+      "nav_date": "2026-09-22",
       "distribution": 0.685,
       "distribution_date": "2026-09-09"
     },
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
-      "nav": 36.94,
-      "nav_date": "2026-09-21",
+      "nav": 36.91,
+      "nav_date": "2026-09-22",
       "distribution": 0.51,
       "distribution_date": "2026-09-02"
     },
     "MLE24": {
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
-      "nav": 21.52,
-      "nav_date": "2026-09-21",
+      "nav": 21.88,
+      "nav_date": "2026-09-22",
       "distribution": 0.153,
       "distribution_date": "2026-08-31"
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
-      "nav": 73.42,
-      "nav_date": "2026-09-21",
+      "nav": 73.66,
+      "nav_date": "2026-09-22",
       "distribution": 0.8322,
       "distribution_date": "2024-07-31"
     }
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-09-22 22:17"
+  "funds_updated_at": "2026-09-23 22:36"
 }
