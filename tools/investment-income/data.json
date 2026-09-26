@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-25 22:55",
+  "updated_at": "2026-09-26 16:55",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
     "usd_twd_buy": 31.705,
     "usd_twd_sell": 31.855,
-    "date": "2026-09-25",
-    "updated_at": "2026-09-25 17:11"
+    "date": "2026-09-26",
+    "updated_at": "2026-09-26 16:55"
   },
   "funds": {
     "DSP5": {
