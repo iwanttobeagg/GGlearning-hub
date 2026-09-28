@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 18:18",
+  "updated_at": "2026-09-29 01:55",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -25,8 +25,8 @@
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
-      "nav": 73.13,
-      "nav_date": "2026-09-24",
+      "nav": 73.11,
+      "nav_date": "2026-09-25",
       "distribution": 0.685,
       "distribution_date": "2026-09-09"
     },
@@ -54,5 +54,5 @@
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-09-27 22:57"
+  "funds_updated_at": "2026-09-29 01:55"
 }
