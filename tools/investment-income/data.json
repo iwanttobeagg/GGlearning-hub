@@ -11,13 +11,23 @@
   "funds": {
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
+      "currency": "USD",
       "nav": 8.4093,
       "nav_date": "2026-09-28",
       "distribution": 0.055,
       "distribution_date": "2026-09-15"
     },
+    "DST1": {
+      "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
+      "currency": "TWD",
+      "nav": 8.26,
+      "nav_date": "2026-09-23",
+      "distribution": 0.059,
+      "distribution_date": "2026-08-28"
+    },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
+      "currency": "USD",
       "nav": 12.73,
       "nav_date": "2026-09-24",
       "distribution": 0.088,
@@ -25,6 +35,7 @@
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
+      "currency": "USD",
       "nav": 72.94,
       "nav_date": "2026-09-28",
       "distribution": 0.685,
@@ -32,6 +43,7 @@
     },
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
+      "currency": "USD",
       "nav": 36.33,
       "nav_date": "2026-09-28",
       "distribution": 0.51,
@@ -39,6 +51,7 @@
     },
     "MLE24": {
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
+      "currency": "USD",
       "nav": 21.6,
       "nav_date": "2026-09-28",
       "distribution": 0.153,
@@ -46,6 +59,7 @@
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
+      "currency": "USD",
       "nav": 73.11,
       "nav_date": "2026-09-28",
       "distribution": 0.8322,
