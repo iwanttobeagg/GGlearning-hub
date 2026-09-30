@@ -22,6 +22,10 @@ FUNDS = {
         "nav_url": "https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=TLZ64-DSP5",
         "dist_url": "https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=TLZ64-DSP5",
     },
+    "DST1": {
+        "nav_url": "https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD75-DST1",
+        "dist_url": "https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD75-DST1",
+    },
     "DST3": {
         "nav_url": "https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD154-DST3",
         "dist_url": "https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD154-DST3",
@@ -119,7 +123,7 @@ def parse_distribution(url: str):
                 if 0 < val < 100:
                     return val, ex_date
     text = clean(soup.get_text(" ", strip=True))
-    m = re.search(r"((?:\d{4}[/-])?\d{1,2}[/-]\d{1,2}).{0,50}?(\d+(?:\.\d+)?)\s*(?:美元|USD)", text)
+    m = re.search(r"((?:\d{4}[/-])?\d{1,2}[/-]\d{1,2}).{0,50}?(\d+(?:\.\d+)?)\s*(?:美元|USD|台幣|新臺幣|TWD)", text)
     if not m:
         raise RuntimeError(f"distribution not found: {url}")
     return float(m.group(2)), normalize_date(m.group(1))
@@ -131,7 +135,6 @@ def parse_bot_fx_html():
         txt = clean(tr.get_text(" ", strip=True))
         if "美金" not in txt or "USD" not in txt:
             continue
-        # BOT order on the USD row: cash buy, cash sell, spot buy, spot sell.
         nums = [float(x) for x in re.findall(r"(?<!\d)(\d+(?:\.\d+)?)(?!\d)", txt)]
         nums = [x for x in nums if 20 <= x <= 50]
         if len(nums) >= 4:
