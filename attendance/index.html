@@ -1,1 +1,331 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>富能512 點名工具</title><style>:root {--bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e5e7eb;--green:#166534; --greenbg:#dcfce7; --amber:#92400e; --amberbg:#fef3c7;--red:#991b1b; --redbg:#fee2e2; --purple:#5b21b6; --purplebg:#ede9fe;--blue:#2563eb;}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Segoe UI",sans-serif}.wrap{max-width:760px;margin:auto;padding:16px 14px 110px}h1{font-size:24px;margin:2px 0 8px}.sub{font-size:13px;color:var(--muted);margin-bottom:14px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(15,23,42,.04)}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.stat{background:#f8fafc;border-radius:12px;padding:9px 4px;text-align:center;font-size:12px;color:var(--muted)}.stat b{display:block;color:var(--text);font-size:21px;margin-top:2px}.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mode{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 6px;font-weight:800}.mode.active[data-mode="present"]{background:var(--greenbg);color:var(--green)}.mode.active[data-mode="late"]{background:var(--amberbg);color:var(--amber)}.mode.active[data-mode="absent"]{background:var(--redbg);color:var(--red)}.mode.active[data-mode="leave"]{background:var(--purplebg);color:var(--purple)}.hint{font-size:13px;color:var(--muted);margin-top:9px}.person{display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2f5;padding:9px 0}.name{flex:1;font-weight:750;font-size:17px;padding:7px 3px;cursor:pointer}.badge{min-width:98px;text-align:center;border-radius:999px;padding:8px 10px;font-size:14px;font-weight:800;cursor:pointer}.unset{background:#f1f5f9;color:#64748b}.present{background:var(--greenbg);color:var(--green)}.late{background:var(--amberbg);color:var(--amber)}.absent{background:var(--redbg);color:var(--red)}.leave{background:var(--purplebg);color:var(--purple)}.divider{text-align:center;font-weight:900;background:#eef2f7;color:#334155;border-radius:12px;padding:11px;margin:8px 0}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-weight:800}.dark{background:#111827;color:#fff;border-color:#111827}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}pre{white-space:pre-wrap;word-break:break-word;margin:0;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;line-height:1.6;font-size:15px}.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}.stickyin{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:9px}.big{border:0;border-radius:14px;padding:14px 10px;font-weight:900;font-size:16px}.modalbg{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:16px}.modal{max-width:760px;width:100%;background:#fff;border-radius:20px;padding:16px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.quick button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 5px;font-weight:750}.hidden{display:none!important}input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit}.row{display:flex;gap:8px}.memory{display:flex;align-items:center;justify-content:space-between;gap:10px}.memory .left{font-size:13px;color:var(--muted)}.memory strong{color:var(--text)}@media(max-width:480px){.stats{grid-template-columns:repeat(3,1fr)}.modes{grid-template-columns:repeat(2,1fr)}}</style></head><body><div class="wrap"><h1>🌟 富能512｜點名工具</h1><div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div><div class="card memory"><div class="left">上次保存：<strong id="savedAt">尚未保存</strong></div><button class="btn" id="clearMemory">清除記憶</button></div><div class="card"><div class="stats"><div class="stat">✅準時<b id="nPresent">0</b></div><div class="stat">❎遲到<b id="nLate">0</b></div><div class="stat">❌未到<b id="nAbsent">0</b></div><div class="stat">📅請假<b id="nLeave">0</b></div><div class="stat">未點名<b id="nUnset">0</b></div></div></div><div class="card"><div class="modes"><button class="mode active" data-mode="present">✅ 準時</button><button class="mode" data-mode="late">❎ 遲到</button><button class="mode" data-mode="absent">❌ 未到</button><button class="mode" data-mode="leave">📅 請假</button></div><div class="hint">先選狀態，再點姓名。請假可輸入「事假、病假、跑訪、出國9/29-10/6」等文字。</div></div><div class="card"><div id="list"></div></div><div class="card"><pre id="preview"></pre><div class="actions"><button class="btn dark" id="copy1">複製 LINE 貼文</button><button class="btn" id="reset">全部清空</button></div></div></div><div class="sticky"><div class="stickyin"><button class="big" id="unsetToAbsent">未點名 → 未到</button><button class="big dark" id="copy2">複製 LINE 貼文</button></div></div><div id="leaveModal" class="modalbg hidden"><div class="modal"><div id="leaveName" style="font-size:18px;font-weight:900">請假註記</div><div class="quick"><button data-note="事假">事假</button><button data-note="病假">病假</button><button data-note="喪假">喪假</button><button data-note="跑訪">跑訪</button><button data-note="公假">公假</button><button data-note="出國">出國</button></div><input id="leaveNote" placeholder="例如：出國9/29-10/6"><div class="row" style="margin-top:10px"><button class="btn dark" style="flex:1" id="confirmLeave">確定</button><button class="btn" style="flex:1" id="cancelLeave">取消</button></div></div></div><script>const K="funeng512_last_attendance_v3",B=["簡宏鈞","林思宇","柯如真","邱俊睿","張齊祐","李聖喆","洪鈺茹","劉文軒","林龍杉","劉芷珊","簡姵萱","李兆傳","邢涵瑜","連庭君","李育萱","葉欲聖","許慶安","劉凱綸","林奕安","陳子杰","趙家詡","吳虹儀","于柏鋒","劉峻孝","李婕詠","陳冠綸","陳彥朋","吳沛錞","胡湘祺","林芳誼","李若瑜","許家銘","顏明儀","李宗騏","黃啟傑","張國興","李劭圻","蔡承遠","#——8:30、9:00上班——","陳昶宇","陳昶安","陳柏翰","管卓鈞","王思嵐","姚恩廸","邵建文","潘韻竹","曾柏郡","程綺婕","王思瑩（台南）"],$=i=>document.getElementById(i);function blank(){return B.map(n=>n[0]==="#"?{type:"divider",text:n.slice(1)}:{type:"person",name:n,status:"",note:""})}function load(){try{let r=localStorage.getItem(K);return r?JSON.parse(r):{items:blank(),savedAt:null}}catch(e){return{items:blank(),savedAt:null}}}let S=load(),state=S.items,mode="present",li=null;function stamp(){if(!S.savedAt)return $("savedAt").textContent="尚未保存";let d=new Date(S.savedAt);$("savedAt").textContent=d.toLocaleString("zh-TW",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"})}function save(){S={items:state,savedAt:new Date().toISOString()};localStorage.setItem(K,JSON.stringify(S));stamp()}function st(x){if(!x.status)return["未點名","unset"];if(x.status==="present")return["✅ 準時","present"];if(x.status==="late")return["❎ 遲到","late"];if(x.status==="absent")return["❌ 未到","absent"];return["📅 "+(x.note||"請假"),"leave"]}function leave(i){li=i;$("leaveName").textContent=state[i].name+"｜請假註記";$("leaveNote").value=state[i].status==="leave"?state[i].note||"":"";$("leaveModal").classList.remove("hidden")}function apply(i,s){if(s==="leave")return leave(i);state[i].status=s;state[i].note="";save();render()}function post(){let o=["✅準時❎遲到❌未到","📅請假（標記假別）",""];state.forEach(x=>{if(x.type==="divider")return o.push("",x.text);let z=x.status==="present"?"✅":x.status==="late"?"❎":x.status==="absent"?"❌":x.status==="leave"?"📅"+(x.note||"請假"):"";o.push(x.name+z)});return o.join("\n")}function render(){$("list").innerHTML="";state.forEach((x,i)=>{if(x.type==="divider"){let d=document.createElement("div");d.className="divider";d.textContent=x.text;return $("list").appendChild(d)}let [t,c]=st(x),r=document.createElement("div");r.className="person";r.innerHTML='<div class="name"></div><div class="badge"></div>';r.querySelector(".name").textContent=x.name;let b=r.querySelector(".badge");b.textContent=t;b.className="badge "+c;r.querySelector(".name").onclick=()=>apply(i,mode);b.onclick=()=>{let q=["","present","late","absent","leave"],n=q[(q.indexOf(x.status||"")+1)%q.length];if(n==="leave")return leave(i);x.status=n;x.note="";save();render()};$("list").appendChild(r)});let p=state.filter(x=>x.type==="person");$("nPresent").textContent=p.filter(x=>x.status==="present").length;$("nLate").textContent=p.filter(x=>x.status==="late").length;$("nAbsent").textContent=p.filter(x=>x.status==="absent").length;$("nLeave").textContent=p.filter(x=>x.status==="leave").length;$("nUnset").textContent=p.filter(x=>!x.status).length;$("preview").textContent=post();stamp()}document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode});$("unsetToAbsent").onclick=()=>{if(confirm("把所有尚未點名的人改成 ❌ 未到？")){state.forEach(x=>{if(x.type==="person"&&!x.status)x.status="absent"});save();render()}};$("reset").onclick=()=>{if(confirm("清空這次所有點名結果？")){state=blank();save();render()}};$("clearMemory").onclick=()=>{if(confirm("清除這台手機保存的上次結果？")){localStorage.removeItem(K);S={items:blank(),savedAt:null};state=S.items;render()}};document.querySelectorAll("[data-note]").forEach(b=>b.onclick=()=>{$("leaveNote").value=b.dataset.note;$("leaveNote").focus()});$("confirmLeave").onclick=()=>{if(li===null)return;state[li].status="leave";state[li].note=$("leaveNote").value.trim()||"請假";li=null;$("leaveModal").classList.add("hidden");save();render()};$("cancelLeave").onclick=()=>{li=null;$("leaveModal").classList.add("hidden")};async function copy(){let t=post();try{await navigator.clipboard.writeText(t);alert("已複製，可以直接貼到 LINE。")}catch(e){let a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();alert("已複製，可以直接貼到 LINE。")}}$("copy1").onclick=copy;$("copy2").onclick=copy;render();</script></body></html>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>富能512 點名工具</title>
+<style>
+:root {
+  --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e5e7eb;
+  --green:#166534; --greenbg:#dcfce7; --amber:#92400e; --amberbg:#fef3c7;
+  --red:#991b1b; --redbg:#fee2e2; --purple:#5b21b6; --purplebg:#ede9fe;
+  --blue:#2563eb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Segoe UI",sans-serif}
+.wrap{max-width:760px;margin:auto;padding:16px 14px 110px}
+h1{font-size:24px;margin:2px 0 8px}
+.sub{font-size:13px;color:var(--muted);margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(15,23,42,.04)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.stat{background:#f8fafc;border-radius:12px;padding:9px 4px;text-align:center;font-size:12px;color:var(--muted)}
+.stat b{display:block;color:var(--text);font-size:21px;margin-top:2px}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mode{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 6px;font-weight:800}
+.mode.active[data-mode="present"]{background:var(--greenbg);color:var(--green)}
+.mode.active[data-mode="late"]{background:var(--amberbg);color:var(--amber)}
+.mode.active[data-mode="absent"]{background:var(--redbg);color:var(--red)}
+.mode.active[data-mode="leave"]{background:var(--purplebg);color:var(--purple)}
+.hint{font-size:13px;color:var(--muted);margin-top:9px}
+.person{display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2f5;padding:9px 0}
+.name{flex:1;font-weight:750;font-size:17px;padding:7px 3px;cursor:pointer}
+.badge{min-width:98px;text-align:center;border-radius:999px;padding:8px 10px;font-size:14px;font-weight:800;cursor:pointer}
+.unset{background:#f1f5f9;color:#64748b}
+.present{background:var(--greenbg);color:var(--green)}
+.late{background:var(--amberbg);color:var(--amber)}
+.absent{background:var(--redbg);color:var(--red)}
+.leave{background:var(--purplebg);color:var(--purple)}
+.divider{text-align:center;font-weight:900;background:#eef2f7;color:#334155;border-radius:12px;padding:11px;margin:8px 0}
+.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-weight:800}
+.dark{background:#111827;color:#fff;border-color:#111827}
+.blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+pre{white-space:pre-wrap;word-break:break-word;margin:0;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;line-height:1.6;font-size:15px}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.stickyin{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.big{border:0;border-radius:14px;padding:14px 10px;font-weight:900;font-size:16px}
+.modalbg{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:16px}
+.modal{max-width:760px;width:100%;background:#fff;border-radius:20px;padding:16px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.quick button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 5px;font-weight:750}
+.hidden{display:none!important}
+input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit}
+.row{display:flex;gap:8px}
+.memory{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.memory .left{font-size:13px;color:var(--muted)}
+.memory strong{color:var(--text)}
+.lateIcon{display:inline-flex;align-items:center;justify-content:center;width:1.45em;height:1.45em;border-radius:.32em;background:#fff;border:2px solid #d1d5db;color:#ef4444;font-weight:950;font-size:.92em;line-height:1;vertical-align:-.18em;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+@media(max-width:480px){
+ .stats{grid-template-columns:repeat(3,1fr)}
+ .modes{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🌟 富能512｜點名工具</h1>
+  <div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
+
+  <div class="card memory">
+    <div class="left">上次保存：<strong id="savedAt">尚未保存</strong></div>
+    <button class="btn" id="clearMemory">清除記憶</button>
+  </div>
+
+  <div class="card">
+    <div class="stats">
+      <div class="stat">✅準時<b id="nPresent">0</b></div>
+      <div class="stat"><span class="lateIcon">✕</span>遲到<b id="nLate">0</b></div>
+      <div class="stat">❌未到<b id="nAbsent">0</b></div>
+      <div class="stat">📅請假<b id="nLeave">0</b></div>
+      <div class="stat">未點名<b id="nUnset">0</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="modes">
+      <button class="mode active" data-mode="present">✅ 準時</button>
+      <button class="mode" data-mode="late"><span class="lateIcon">✕</span> 遲到</button>
+      <button class="mode" data-mode="absent">❌ 未到</button>
+      <button class="mode" data-mode="leave">📅 請假</button>
+    </div>
+    <div class="hint">先選狀態，再點姓名。請假可輸入「事假、病假、跑訪、出國9/29-10/6」等文字。</div>
+  </div>
+
+  <div class="card">
+    <div id="list"></div>
+  </div>
+
+  <div class="card">
+    <pre id="preview"></pre>
+    <div class="actions">
+      <button class="btn dark" id="copy1">複製 LINE 貼文</button>
+      <button class="btn" id="reset">全部清空</button>
+    </div>
+  </div>
+</div>
+
+<div class="sticky">
+  <div class="stickyin">
+    <button class="big" id="unsetToAbsent">未點名 → 未到</button>
+    <button class="big dark" id="copy2">複製 LINE 貼文</button>
+  </div>
+</div>
+
+<div id="leaveModal" class="modalbg hidden">
+  <div class="modal">
+    <div id="leaveName" style="font-size:18px;font-weight:900">請假註記</div>
+    <div class="quick">
+      <button data-note="事假">事假</button>
+      <button data-note="病假">病假</button>
+      <button data-note="喪假">喪假</button>
+      <button data-note="跑訪">跑訪</button>
+      <button data-note="公假">公假</button>
+      <button data-note="出國">出國</button>
+    </div>
+    <input id="leaveNote" placeholder="例如：出國9/29-10/6">
+    <div class="row" style="margin-top:10px">
+      <button class="btn dark" style="flex:1" id="confirmLeave">確定</button>
+      <button class="btn" style="flex:1" id="cancelLeave">取消</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "funeng512_last_attendance_v3";
+const BASE = [{"type": "person", "name": "簡宏鈞"}, {"type": "person", "name": "林思宇"}, {"type": "person", "name": "柯如真"}, {"type": "person", "name": "邱俊睿"}, {"type": "person", "name": "張齊祐"}, {"type": "person", "name": "李聖喆"}, {"type": "person", "name": "洪鈺茹"}, {"type": "person", "name": "劉文軒"}, {"type": "person", "name": "林龍杉"}, {"type": "person", "name": "劉芷珊"}, {"type": "person", "name": "簡姵萱"}, {"type": "person", "name": "李兆傳"}, {"type": "person", "name": "邢涵瑜"}, {"type": "person", "name": "連庭君"}, {"type": "person", "name": "李育萱"}, {"type": "person", "name": "葉欲聖"}, {"type": "person", "name": "許慶安"}, {"type": "person", "name": "劉凱綸"}, {"type": "person", "name": "林奕安"}, {"type": "person", "name": "陳子杰"}, {"type": "person", "name": "趙家詡"}, {"type": "person", "name": "吳虹儀"}, {"type": "person", "name": "于柏鋒"}, {"type": "person", "name": "劉峻孝"}, {"type": "person", "name": "李婕詠"}, {"type": "person", "name": "陳冠綸"}, {"type": "person", "name": "陳彥朋"}, {"type": "person", "name": "吳沛錞"}, {"type": "person", "name": "胡湘祺"}, {"type": "person", "name": "林芳誼"}, {"type": "person", "name": "李若瑜"}, {"type": "person", "name": "許家銘"}, {"type": "person", "name": "顏明儀"}, {"type": "person", "name": "李宗騏"}, {"type": "person", "name": "黃啟傑"}, {"type": "person", "name": "張國興"}, {"type": "person", "name": "李劭圻"}, {"type": "person", "name": "蔡承遠"}, {"type": "divider", "text": "——8:30、9:00上班——"}, {"type": "person", "name": "陳昶宇"}, {"type": "person", "name": "陳昶安"}, {"type": "person", "name": "陳柏翰"}, {"type": "person", "name": "管卓鈞"}, {"type": "person", "name": "王思嵐"}, {"type": "person", "name": "姚恩廸"}, {"type": "person", "name": "邵建文"}, {"type": "person", "name": "潘韻竹"}, {"type": "person", "name": "曾柏郡"}, {"type": "person", "name": "程綺婕"}, {"type": "person", "name": "王思瑩（台南）"}];
+const $ = id => document.getElementById(id);
+
+function blankState() {
+  return BASE.map(x => x.type==="person" ? {...x,status:"",note:""} : {...x});
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {items: blankState(), savedAt: null};
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.items)) return {items: blankState(), savedAt: null};
+    return parsed;
+  } catch(e) {
+    return {items: blankState(), savedAt: null};
+  }
+}
+
+let store = loadState();
+let state = store.items;
+let mode = "present";
+let leaveIndex = null;
+
+function save() {
+  const now = new Date();
+  store = {items: state, savedAt: now.toISOString()};
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+  updateSavedAt();
+}
+
+function updateSavedAt() {
+  if (!store.savedAt) {
+    $("savedAt").textContent = "尚未保存";
+    return;
+  }
+  const d = new Date(store.savedAt);
+  $("savedAt").textContent = d.toLocaleString("zh-TW", {
+    month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"
+  });
+}
+
+function statusText(item) {
+  if (!item.status) return ["未點名","unset"];
+  if (item.status==="present") return ["✅ 準時","present"];
+  if (item.status==="late") return ["❎ 遲到","late"];
+  if (item.status==="absent") return ["❌ 未到","absent"];
+  return ["📅 "+(item.note || "請假"),"leave"];
+}
+
+function apply(index, status) {
+  const item = state[index];
+  if (status==="leave") {
+    leaveIndex = index;
+    $("leaveName").textContent = item.name + "｜請假註記";
+    $("leaveNote").value = item.status==="leave" ? (item.note || "") : "";
+    $("leaveModal").classList.remove("hidden");
+    return;
+  }
+  item.status = status;
+  item.note = "";
+  save();
+  render();
+}
+
+function buildPost() {
+  const out = ["✅準時❎遲到❌未到","📅請假（標記假別）",""];
+  state.forEach(item => {
+    if (item.type==="divider") {
+      out.push("", item.text);
+      return;
+    }
+    let suffix = "";
+    if (item.status==="present") suffix = "✅";
+    else if (item.status==="late") suffix = "❎";
+    else if (item.status==="absent") suffix = "❌";
+    else if (item.status==="leave") suffix = "📅" + (item.note || "請假");
+    out.push(item.name + suffix);
+  });
+  return out.join("\n");
+}
+
+function render() {
+  $("list").innerHTML = "";
+  state.forEach((item,index) => {
+    if (item.type==="divider") {
+      const d = document.createElement("div");
+      d.className = "divider";
+      d.textContent = item.text;
+      $("list").appendChild(d);
+      return;
+    }
+    const [label, cls] = statusText(item);
+    const row = document.createElement("div");
+    row.className = "person";
+    row.innerHTML = '<div class="name"></div><div class="badge"></div>';
+    row.querySelector(".name").textContent = item.name;
+    const badge = row.querySelector(".badge");
+    if (item.status === "late") badge.innerHTML = '<span class="lateIcon">✕</span> 遲到';
+    else badge.textContent = label;
+    badge.className = "badge " + cls;
+    row.querySelector(".name").onclick = () => apply(index, mode);
+    badge.onclick = () => {
+      const order = ["","present","late","absent","leave"];
+      const cur = order.indexOf(item.status || "");
+      const next = order[(cur+1)%order.length];
+      if (next==="leave") return apply(index,"leave");
+      item.status = next;
+      item.note = "";
+      save();
+      render();
+    };
+    $("list").appendChild(row);
+  });
+  const people = state.filter(x=>x.type==="person");
+  $("nPresent").textContent = people.filter(x=>x.status==="present").length;
+  $("nLate").textContent = people.filter(x=>x.status==="late").length;
+  $("nAbsent").textContent = people.filter(x=>x.status==="absent").length;
+  $("nLeave").textContent = people.filter(x=>x.status==="leave").length;
+  $("nUnset").textContent = people.filter(x=>!x.status).length;
+  $("preview").textContent = buildPost();
+  updateSavedAt();
+}
+
+document.querySelectorAll(".mode").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    mode = btn.dataset.mode;
+  };
+});
+
+$("unsetToAbsent").onclick = () => {
+  if (!confirm("把所有尚未點名的人改成 ❌ 未到？")) return;
+  state.forEach(x => { if (x.type==="person" && !x.status) x.status="absent"; });
+  save();
+  render();
+};
+
+$("reset").onclick = () => {
+  if (!confirm("清空這次所有點名結果？")) return;
+  state = blankState();
+  save();
+  render();
+};
+
+$("clearMemory").onclick = () => {
+  if (!confirm("清除這台手機保存的上次結果？")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  store = {items: blankState(), savedAt: null};
+  state = store.items;
+  render();
+};
+
+document.querySelectorAll("[data-note]").forEach(btn => {
+  btn.onclick = () => { $("leaveNote").value = btn.dataset.note; $("leaveNote").focus(); };
+});
+
+$("confirmLeave").onclick = () => {
+  if (leaveIndex===null) return;
+  state[leaveIndex].status = "leave";
+  state[leaveIndex].note = $("leaveNote").value.trim() || "請假";
+  leaveIndex = null;
+  $("leaveModal").classList.add("hidden");
+  save();
+  render();
+};
+$("cancelLeave").onclick = () => {
+  leaveIndex = null;
+  $("leaveModal").classList.add("hidden");
+};
+
+async function copyText() {
+  const text = buildPost();
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("已複製，可以直接貼到 LINE。");
+  } catch(e) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    alert("已複製，可以直接貼到 LINE。");
+  }
+}
+
+$("copy1").onclick = copyText;
+$("copy2").onclick = copyText;
+
+render();
+</script>
+</body>
+</html>
