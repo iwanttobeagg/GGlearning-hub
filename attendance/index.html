@@ -6,10 +6,10 @@
 <title>富能512 點名工具</title>
 <style>
 :root {
-  --bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e5e7eb;
-  --green:#166534; --greenbg:#dcfce7; --amber:#92400e; --amberbg:#fef3c7;
-  --red:#991b1b; --redbg:#fee2e2; --purple:#5b21b6; --purplebg:#ede9fe;
-  --blue:#2563eb;
+--bg:#f5f7fb; --card:#fff; --text:#172033; --muted:#667085; --line:#e5e7eb;
+--green:#166534; --greenbg:#dcfce7; --amber:#92400e; --amberbg:#fef3c7;
+--red:#991b1b; --redbg:#fee2e2; --purple:#5b21b6; --purplebg:#ede9fe;
+--blue:#2563eb;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Segoe UI",sans-serif}
@@ -54,277 +54,249 @@ input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12
 .memory{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .memory .left{font-size:13px;color:var(--muted)}
 .memory strong{color:var(--text)}
-.lateIcon{display:inline-flex;align-items:center;justify-content:center;width:1.45em;height:1.45em;border-radius:.32em;background:#fff;border:2px solid #d1d5db;color:#ef4444;font-weight:950;font-size:.92em;line-height:1;vertical-align:-.18em;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 @media(max-width:480px){
- .stats{grid-template-columns:repeat(3,1fr)}
- .modes{grid-template-columns:repeat(2,1fr)}
+.stats{grid-template-columns:repeat(3,1fr)}
+.modes{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>🌟 富能512｜點名工具</h1>
-  <div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
-
-  <div class="card memory">
-    <div class="left">上次保存：<strong id="savedAt">尚未保存</strong></div>
-    <button class="btn" id="clearMemory">清除記憶</button>
-  </div>
-
-  <div class="card">
-    <div class="stats">
-      <div class="stat">✅準時<b id="nPresent">0</b></div>
-      <div class="stat"><span class="lateIcon">✕</span>遲到<b id="nLate">0</b></div>
-      <div class="stat">❌未到<b id="nAbsent">0</b></div>
-      <div class="stat">📅請假<b id="nLeave">0</b></div>
-      <div class="stat">未點名<b id="nUnset">0</b></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="modes">
-      <button class="mode active" data-mode="present">✅ 準時</button>
-      <button class="mode" data-mode="late"><span class="lateIcon">✕</span> 遲到</button>
-      <button class="mode" data-mode="absent">❌ 未到</button>
-      <button class="mode" data-mode="leave">📅 請假</button>
-    </div>
-    <div class="hint">先選狀態，再點姓名。請假可輸入「事假、病假、跑訪、出國9/29-10/6」等文字。</div>
-  </div>
-
-  <div class="card">
-    <div id="list"></div>
-  </div>
-
-  <div class="card">
-    <pre id="preview"></pre>
-    <div class="actions">
-      <button class="btn dark" id="copy1">複製 LINE 貼文</button>
-      <button class="btn" id="reset">全部清空</button>
-    </div>
-  </div>
+<h1>🌟 富能512｜點名工具</h1>
+<div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
+<div class="card memory">
+<div class="left">上次保存：<strong id="savedAt">尚未保存</strong></div>
+<button class="btn" id="clearMemory">清除記憶</button>
 </div>
-
+<div class="card">
+<div class="stats">
+<div class="stat">✅準時<b id="nPresent">0</b></div>
+<div class="stat">⏰遲到<b id="nLate">0</b></div>
+<div class="stat">❌未到<b id="nAbsent">0</b></div>
+<div class="stat">📅請假<b id="nLeave">0</b></div>
+<div class="stat">未點名<b id="nUnset">0</b></div>
+</div>
+</div>
+<div class="card">
+<div class="modes">
+<button class="mode active" data-mode="present">✅ 準時</button>
+<button class="mode" data-mode="late">⏰ 遲到</button>
+<button class="mode" data-mode="absent">❌ 未到</button>
+<button class="mode" data-mode="leave">📅 請假</button>
+</div>
+<div class="hint">先選狀態，再點姓名。請假可輸入「事假、病假、跑訪、出國9/29-10/6」等文字。</div>
+</div>
+<div class="card">
+<div id="list"></div>
+</div>
+<div class="card">
+<pre id="preview"></pre>
+<div class="actions">
+<button class="btn dark" id="copy1">複製 LINE 貼文</button>
+<button class="btn" id="reset">全部清空</button>
+</div>
+</div>
+</div>
 <div class="sticky">
-  <div class="stickyin">
-    <button class="big" id="unsetToAbsent">未點名 → 未到</button>
-    <button class="big dark" id="copy2">複製 LINE 貼文</button>
-  </div>
+<div class="stickyin">
+<button class="big" id="unsetToAbsent">未點名 → 未到</button>
+<button class="big dark" id="copy2">複製 LINE 貼文</button>
 </div>
-
+</div>
 <div id="leaveModal" class="modalbg hidden">
-  <div class="modal">
-    <div id="leaveName" style="font-size:18px;font-weight:900">請假註記</div>
-    <div class="quick">
-      <button data-note="事假">事假</button>
-      <button data-note="病假">病假</button>
-      <button data-note="喪假">喪假</button>
-      <button data-note="跑訪">跑訪</button>
-      <button data-note="公假">公假</button>
-      <button data-note="出國">出國</button>
-    </div>
-    <input id="leaveNote" placeholder="例如：出國9/29-10/6">
-    <div class="row" style="margin-top:10px">
-      <button class="btn dark" style="flex:1" id="confirmLeave">確定</button>
-      <button class="btn" style="flex:1" id="cancelLeave">取消</button>
-    </div>
-  </div>
+<div class="modal">
+<div id="leaveName" style="font-size:18px;font-weight:900">請假註記</div>
+<div class="quick">
+<button data-note="事假">事假</button>
+<button data-note="病假">病假</button>
+<button data-note="喪假">喪假</button>
+<button data-note="跑訪">跑訪</button>
+<button data-note="公假">公假</button>
+<button data-note="出國">出國</button>
 </div>
-
+<input id="leaveNote" placeholder="例如：出國9/29-10/6">
+<div class="row" style="margin-top:10px">
+<button class="btn dark" style="flex:1" id="confirmLeave">確定</button>
+<button class="btn" style="flex:1" id="cancelLeave">取消</button>
+</div>
+</div>
+</div>
 <script>
 const STORAGE_KEY = "funeng512_last_attendance_v3";
 const BASE = [{"type": "person", "name": "簡宏鈞"}, {"type": "person", "name": "林思宇"}, {"type": "person", "name": "柯如真"}, {"type": "person", "name": "邱俊睿"}, {"type": "person", "name": "張齊祐"}, {"type": "person", "name": "李聖喆"}, {"type": "person", "name": "洪鈺茹"}, {"type": "person", "name": "劉文軒"}, {"type": "person", "name": "林龍杉"}, {"type": "person", "name": "劉芷珊"}, {"type": "person", "name": "簡姵萱"}, {"type": "person", "name": "李兆傳"}, {"type": "person", "name": "邢涵瑜"}, {"type": "person", "name": "連庭君"}, {"type": "person", "name": "李育萱"}, {"type": "person", "name": "葉欲聖"}, {"type": "person", "name": "許慶安"}, {"type": "person", "name": "劉凱綸"}, {"type": "person", "name": "林奕安"}, {"type": "person", "name": "陳子杰"}, {"type": "person", "name": "趙家詡"}, {"type": "person", "name": "吳虹儀"}, {"type": "person", "name": "于柏鋒"}, {"type": "person", "name": "劉峻孝"}, {"type": "person", "name": "李婕詠"}, {"type": "person", "name": "陳冠綸"}, {"type": "person", "name": "陳彥朋"}, {"type": "person", "name": "吳沛錞"}, {"type": "person", "name": "胡湘祺"}, {"type": "person", "name": "林芳誼"}, {"type": "person", "name": "李若瑜"}, {"type": "person", "name": "許家銘"}, {"type": "person", "name": "顏明儀"}, {"type": "person", "name": "李宗騏"}, {"type": "person", "name": "黃啟傑"}, {"type": "person", "name": "張國興"}, {"type": "person", "name": "李劭圻"}, {"type": "person", "name": "蔡承遠"}, {"type": "divider", "text": "——8:30、9:00上班——"}, {"type": "person", "name": "陳昶宇"}, {"type": "person", "name": "陳昶安"}, {"type": "person", "name": "陳柏翰"}, {"type": "person", "name": "管卓鈞"}, {"type": "person", "name": "王思嵐"}, {"type": "person", "name": "姚恩廸"}, {"type": "person", "name": "邵建文"}, {"type": "person", "name": "潘韻竹"}, {"type": "person", "name": "曾柏郡"}, {"type": "person", "name": "程綺婕"}, {"type": "person", "name": "王思瑩（台南）"}];
 const $ = id => document.getElementById(id);
-
 function blankState() {
-  return BASE.map(x => x.type==="person" ? {...x,status:"",note:""} : {...x});
+return BASE.map(x => x.type==="person" ? {...x,status:"",note:""} : {...x});
 }
-
 function loadState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {items: blankState(), savedAt: null};
-    const parsed = JSON.parse(raw);
-    if (!parsed || !Array.isArray(parsed.items)) return {items: blankState(), savedAt: null};
-    return parsed;
-  } catch(e) {
-    return {items: blankState(), savedAt: null};
-  }
+try {
+const raw = localStorage.getItem(STORAGE_KEY);
+if (!raw) return {items: blankState(), savedAt: null};
+const parsed = JSON.parse(raw);
+if (!parsed || !Array.isArray(parsed.items)) return {items: blankState(), savedAt: null};
+return parsed;
+} catch(e) {
+return {items: blankState(), savedAt: null};
 }
-
+}
 let store = loadState();
 let state = store.items;
 let mode = "present";
 let leaveIndex = null;
-
 function save() {
-  const now = new Date();
-  store = {items: state, savedAt: now.toISOString()};
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-  updateSavedAt();
+const now = new Date();
+store = {items: state, savedAt: now.toISOString()};
+localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+updateSavedAt();
 }
-
 function updateSavedAt() {
-  if (!store.savedAt) {
-    $("savedAt").textContent = "尚未保存";
-    return;
-  }
-  const d = new Date(store.savedAt);
-  $("savedAt").textContent = d.toLocaleString("zh-TW", {
-    month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"
-  });
+if (!store.savedAt) {
+$("savedAt").textContent = "尚未保存";
+return;
 }
-
+const d = new Date(store.savedAt);
+$("savedAt").textContent = d.toLocaleString("zh-TW", {
+month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"
+});
+}
 function statusText(item) {
-  if (!item.status) return ["未點名","unset"];
-  if (item.status==="present") return ["✅ 準時","present"];
-  if (item.status==="late") return ["❎ 遲到","late"];
-  if (item.status==="absent") return ["❌ 未到","absent"];
-  return ["📅 "+(item.note || "請假"),"leave"];
+if (!item.status) return ["未點名","unset"];
+if (item.status==="present") return ["✅ 準時","present"];
+if (item.status==="late") return ["⏰ 遲到","late"];
+if (item.status==="absent") return ["❌ 未到","absent"];
+return ["📅 "+(item.note || "請假"),"leave"];
 }
-
 function apply(index, status) {
-  const item = state[index];
-  if (status==="leave") {
-    leaveIndex = index;
-    $("leaveName").textContent = item.name + "｜請假註記";
-    $("leaveNote").value = item.status==="leave" ? (item.note || "") : "";
-    $("leaveModal").classList.remove("hidden");
-    return;
-  }
-  item.status = status;
-  item.note = "";
-  save();
-  render();
+const item = state[index];
+if (status==="leave") {
+leaveIndex = index;
+$("leaveName").textContent = item.name + "｜請假註記";
+$("leaveNote").value = item.status==="leave" ? (item.note || "") : "";
+$("leaveModal").classList.remove("hidden");
+return;
 }
-
+item.status = status;
+item.note = "";
+save();
+render();
+}
 function buildPost() {
-  const out = ["✅準時❎遲到❌未到","📅請假（標記假別）",""];
-  state.forEach(item => {
-    if (item.type==="divider") {
-      out.push("", item.text);
-      return;
-    }
-    let suffix = "";
-    if (item.status==="present") suffix = "✅";
-    else if (item.status==="late") suffix = "❎";
-    else if (item.status==="absent") suffix = "❌";
-    else if (item.status==="leave") suffix = "📅" + (item.note || "請假");
-    out.push(item.name + suffix);
-  });
-  return out.join("\n");
+const out = ["✅準時⏰遲到❌未到","📅請假（標記假別）",""];
+state.forEach(item => {
+if (item.type==="divider") {
+out.push("", item.text);
+return;
 }
-
+let suffix = "";
+if (item.status==="present") suffix = "✅";
+else if (item.status==="late") suffix = "⏰";
+else if (item.status==="absent") suffix = "❌";
+else if (item.status==="leave") suffix = "📅" + (item.note || "請假");
+out.push(item.name + suffix);
+});
+return out.join("\n");
+}
 function render() {
-  $("list").innerHTML = "";
-  state.forEach((item,index) => {
-    if (item.type==="divider") {
-      const d = document.createElement("div");
-      d.className = "divider";
-      d.textContent = item.text;
-      $("list").appendChild(d);
-      return;
-    }
-    const [label, cls] = statusText(item);
-    const row = document.createElement("div");
-    row.className = "person";
-    row.innerHTML = '<div class="name"></div><div class="badge"></div>';
-    row.querySelector(".name").textContent = item.name;
-    const badge = row.querySelector(".badge");
-    if (item.status === "late") badge.innerHTML = '<span class="lateIcon">✕</span> 遲到';
-    else badge.textContent = label;
-    badge.className = "badge " + cls;
-    row.querySelector(".name").onclick = () => apply(index, mode);
-    badge.onclick = () => {
-      const order = ["","present","late","absent","leave"];
-      const cur = order.indexOf(item.status || "");
-      const next = order[(cur+1)%order.length];
-      if (next==="leave") return apply(index,"leave");
-      item.status = next;
-      item.note = "";
-      save();
-      render();
-    };
-    $("list").appendChild(row);
-  });
-  const people = state.filter(x=>x.type==="person");
-  $("nPresent").textContent = people.filter(x=>x.status==="present").length;
-  $("nLate").textContent = people.filter(x=>x.status==="late").length;
-  $("nAbsent").textContent = people.filter(x=>x.status==="absent").length;
-  $("nLeave").textContent = people.filter(x=>x.status==="leave").length;
-  $("nUnset").textContent = people.filter(x=>!x.status).length;
-  $("preview").textContent = buildPost();
-  updateSavedAt();
+$("list").innerHTML = "";
+state.forEach((item,index) => {
+if (item.type==="divider") {
+const d = document.createElement("div");
+d.className = "divider";
+d.textContent = item.text;
+$("list").appendChild(d);
+return;
 }
-
+const [label, cls] = statusText(item);
+const row = document.createElement("div");
+row.className = "person";
+row.innerHTML = '<div class="name"></div><div class="badge"></div>';
+row.querySelector(".name").textContent = item.name;
+const badge = row.querySelector(".badge");
+badge.textContent = label;
+badge.className = "badge " + cls;
+row.querySelector(".name").onclick = () => apply(index, mode);
+badge.onclick = () => {
+const order = ["","present","late","absent","leave"];
+const cur = order.indexOf(item.status || "");
+const next = order[(cur+1)%order.length];
+if (next==="leave") return apply(index,"leave");
+item.status = next;
+item.note = "";
+save();
+render();
+};
+$("list").appendChild(row);
+});
+const people = state.filter(x=>x.type==="person");
+$("nPresent").textContent = people.filter(x=>x.status==="present").length;
+$("nLate").textContent = people.filter(x=>x.status==="late").length;
+$("nAbsent").textContent = people.filter(x=>x.status==="absent").length;
+$("nLeave").textContent = people.filter(x=>x.status==="leave").length;
+$("nUnset").textContent = people.filter(x=>!x.status).length;
+$("preview").textContent = buildPost();
+updateSavedAt();
+}
 document.querySelectorAll(".mode").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    mode = btn.dataset.mode;
-  };
+btn.onclick = () => {
+document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+mode = btn.dataset.mode;
+};
 });
-
 $("unsetToAbsent").onclick = () => {
-  if (!confirm("把所有尚未點名的人改成 ❌ 未到？")) return;
-  state.forEach(x => { if (x.type==="person" && !x.status) x.status="absent"; });
-  save();
-  render();
+if (!confirm("把所有尚未點名的人改成 ❌ 未到？")) return;
+state.forEach(x => { if (x.type==="person" && !x.status) x.status="absent"; });
+save();
+render();
 };
-
 $("reset").onclick = () => {
-  if (!confirm("清空這次所有點名結果？")) return;
-  state = blankState();
-  save();
-  render();
+if (!confirm("清空這次所有點名結果？")) return;
+state = blankState();
+save();
+render();
 };
-
 $("clearMemory").onclick = () => {
-  if (!confirm("清除這台手機保存的上次結果？")) return;
-  localStorage.removeItem(STORAGE_KEY);
-  store = {items: blankState(), savedAt: null};
-  state = store.items;
-  render();
+if (!confirm("清除這台手機保存的上次結果？")) return;
+localStorage.removeItem(STORAGE_KEY);
+store = {items: blankState(), savedAt: null};
+state = store.items;
+render();
 };
-
 document.querySelectorAll("[data-note]").forEach(btn => {
-  btn.onclick = () => { $("leaveNote").value = btn.dataset.note; $("leaveNote").focus(); };
+btn.onclick = () => { $("leaveNote").value = btn.dataset.note; $("leaveNote").focus(); };
 });
-
 $("confirmLeave").onclick = () => {
-  if (leaveIndex===null) return;
-  state[leaveIndex].status = "leave";
-  state[leaveIndex].note = $("leaveNote").value.trim() || "請假";
-  leaveIndex = null;
-  $("leaveModal").classList.add("hidden");
-  save();
-  render();
+if (leaveIndex===null) return;
+state[leaveIndex].status = "leave";
+state[leaveIndex].note = $("leaveNote").value.trim() || "請假";
+leaveIndex = null;
+$("leaveModal").classList.add("hidden");
+save();
+render();
 };
 $("cancelLeave").onclick = () => {
-  leaveIndex = null;
-  $("leaveModal").classList.add("hidden");
+leaveIndex = null;
+$("leaveModal").classList.add("hidden");
 };
-
 async function copyText() {
-  const text = buildPost();
-  try {
-    await navigator.clipboard.writeText(text);
-    alert("已複製，可以直接貼到 LINE。");
-  } catch(e) {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.position = "fixed";
-    ta.style.opacity = "0";
-    document.body.appendChild(ta);
-    ta.focus(); ta.select();
-    document.execCommand("copy");
-    ta.remove();
-    alert("已複製，可以直接貼到 LINE。");
-  }
+const text = buildPost();
+try {
+await navigator.clipboard.writeText(text);
+alert("已複製，可以直接貼到 LINE。");
+} catch(e) {
+const ta = document.createElement("textarea");
+ta.value = text;
+ta.style.position = "fixed";
+ta.style.opacity = "0";
+document.body.appendChild(ta);
+ta.focus(); ta.select();
+document.execCommand("copy");
+ta.remove();
+alert("已複製，可以直接貼到 LINE。");
 }
-
+}
 $("copy1").onclick = copyText;
 $("copy2").onclick = copyText;
-
 render();
 </script>
 </body>
