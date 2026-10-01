@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01 18:34",
+  "updated_at": "2026-10-02 00:50",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -12,24 +12,24 @@
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
       "currency": "USD",
-      "nav": 8.3946,
-      "nav_date": "2026-09-29",
+      "nav": 8.3972,
+      "nav_date": "2026-09-30",
       "distribution": 0.055,
       "distribution_date": "2026-09-15"
     },
     "DST1": {
       "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
       "currency": "TWD",
-      "nav": 8.17,
-      "nav_date": "2026-09-29",
+      "nav": 8.15,
+      "nav_date": "2026-09-30",
       "distribution": 0.059,
       "distribution_date": "2026-09-29"
     },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
       "currency": "USD",
-      "nav": 12.66,
-      "nav_date": "2026-09-29",
+      "nav": 12.61,
+      "nav_date": "2026-09-30",
       "distribution": 0.088,
       "distribution_date": "2026-09-29"
     },
@@ -44,8 +44,8 @@
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
       "currency": "USD",
-      "nav": 36.26,
-      "nav_date": "2026-09-29",
+      "nav": 36.28,
+      "nav_date": "2026-09-30",
       "distribution": 0.51,
       "distribution_date": "2026-09-02"
     },
@@ -53,20 +53,20 @@
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
       "currency": "USD",
       "nav": 21.69,
-      "nav_date": "2026-09-29",
+      "nav_date": "2026-09-30",
       "distribution": 0.153,
-      "distribution_date": "2026-08-31"
+      "distribution_date": "2026-09-30"
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
       "currency": "USD",
-      "nav": 73.34,
-      "nav_date": "2026-09-29",
+      "nav": 72.27,
+      "nav_date": "2026-09-30",
       "distribution": 0.8322,
       "distribution_date": "2024-07-31"
     }
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-10-01 00:13"
+  "funds_updated_at": "2026-10-02 00:50"
 }
