@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-03 17:31",
+  "updated_at": "2026-10-03 22:30",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -12,8 +12,8 @@
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
       "currency": "USD",
-      "nav": 8.3557,
-      "nav_date": "2026-10-01",
+      "nav": 8.4182,
+      "nav_date": "2026-10-02",
       "distribution": 0.055,
       "distribution_date": "2026-09-15"
     },
@@ -52,21 +52,21 @@
     "MLE24": {
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
       "currency": "USD",
-      "nav": 21.69,
-      "nav_date": "2026-10-01",
+      "nav": 22.24,
+      "nav_date": "2026-10-02",
       "distribution": 0.153,
       "distribution_date": "2026-09-30"
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
       "currency": "USD",
-      "nav": 72.37,
-      "nav_date": "2026-10-01",
+      "nav": 73.01,
+      "nav_date": "2026-10-02",
       "distribution": 0.8322,
       "distribution_date": "2024-07-31"
     }
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-10-03 00:03"
+  "funds_updated_at": "2026-10-03 22:30"
 }
