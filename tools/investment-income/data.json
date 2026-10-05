@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-05 18:58",
+  "updated_at": "2026-10-06 03:00",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -20,32 +20,32 @@
     "DST1": {
       "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
       "currency": "TWD",
-      "nav": 8.15,
-      "nav_date": "2026-10-01",
+      "nav": 8.2,
+      "nav_date": "2026-10-02",
       "distribution": 0.059,
       "distribution_date": "2026-09-29"
     },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
       "currency": "USD",
-      "nav": 12.71,
-      "nav_date": "2026-10-01",
+      "nav": 12.86,
+      "nav_date": "2026-10-02",
       "distribution": 0.088,
       "distribution_date": "2026-09-29"
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
       "currency": "USD",
-      "nav": 72.87,
-      "nav_date": "2026-09-30",
+      "nav": 72.89,
+      "nav_date": "2026-10-02",
       "distribution": 0.685,
       "distribution_date": "2026-09-09"
     },
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
       "currency": "USD",
-      "nav": 36.15,
-      "nav_date": "2026-10-01",
+      "nav": 35.68,
+      "nav_date": "2026-10-02",
       "distribution": 0.51,
       "distribution_date": "2026-10-02"
     },
@@ -68,5 +68,5 @@
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-10-04 23:05"
+  "funds_updated_at": "2026-10-06 03:00"
 }
