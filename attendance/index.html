@@ -58,12 +58,38 @@ input{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12
 .stats{grid-template-columns:repeat(3,1fr)}
 .modes{grid-template-columns:repeat(2,1fr)}
 }
+
+.month-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.month-grid section{background:#f8fafc;border-radius:12px;padding:12px;min-width:0}
+h2{font-size:20px;margin:0 0 12px}h3{font-size:16px;margin:0 0 10px}
+.person-link{display:block;width:100%;text-align:left;margin:6px 0;overflow-wrap:anywhere}
+#personDetail{margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px}
+#personDetail li{margin:10px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+#historyMessage{white-space:pre-wrap;line-height:1.6}
+button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #2563eb;outline-offset:2px}
+@media(max-width:480px){.month-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>🌟 富能512｜點名工具</h1>
 <div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
+<div class="card">
+<label for="recordDate">點名日期</label>
+<input type="date" id="recordDate">
+<div class="actions"><button class="btn blue" id="saveDay">儲存今日點名</button><button class="btn" id="showMonthly">📊 月統計</button></div>
+<div class="hint">上次點名會保留在畫面，請核對日期與所有人的狀態後再儲存。月統計只計入已儲存的點名日。</div>
+<div id="historyMessage" class="hint" role="status" aria-live="polite"></div>
+</div>
+<div class="card hidden" id="monthlyPanel">
+<h2>📊 月統計</h2>
+<label for="reportMonth">選擇月份</label><input type="month" id="reportMonth">
+<p class="hint">全勤＝當月所有已記錄點名日都是 ✅準時。有遲到、請假、未到或缺少紀錄，均不算全勤。</p>
+<p class="hint">資料僅儲存在此手機的此瀏覽器；清除網站資料後，紀錄也會消失。</p>
+<p id="monthSummary" role="status"></p>
+<div id="monthResults"></div>
+<div id="personDetail" class="hidden" tabindex="-1"></div>
+</div>
 <div class="card memory">
 <div class="left">上次保存：<strong id="savedAt">尚未保存</strong></div>
 <button class="btn" id="clearMemory">清除記憶</button>
@@ -146,7 +172,13 @@ let leaveIndex = null;
 function save() {
 const now = new Date();
 store = {items: state, savedAt: now.toISOString()};
+try {
 localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+} catch(e) {
+$("savedAt").textContent = "保存失敗";
+alert("無法保存本機記憶，請確認瀏覽器允許儲存且空間足夠。");
+return;
+}
 updateSavedAt();
 }
 function updateSavedAt() {
@@ -250,13 +282,13 @@ save();
 render();
 };
 $("reset").onclick = () => {
-if (!confirm("清空這次所有點名結果？")) return;
+if (!confirm("清空畫面上的點名結果？已儲存的每日紀錄不會刪除。")) return;
 state = blankState();
 save();
 render();
 };
 $("clearMemory").onclick = () => {
-if (!confirm("清除這台手機保存的上次結果？")) return;
+if (!confirm("清除上次點名的本機記憶？已儲存的每日紀錄不會刪除。")) return;
 localStorage.removeItem(STORAGE_KEY);
 store = {items: blankState(), savedAt: null};
 state = store.items;
@@ -297,6 +329,126 @@ alert("已複製，可以直接貼到 LINE。");
 }
 $("copy1").onclick = copyText;
 $("copy2").onclick = copyText;
+const HISTORY_KEY = "funeng512_daily_attendance_v1";
+const VALID_STATUSES = ["present", "late", "absent", "leave"];
+function localDate() {
+const d = new Date();
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function validDate(date) {
+if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+const d = new Date(date + "T12:00:00");
+return !isNaN(d) && d.getFullYear() === Number(date.slice(0,4)) && d.getMonth()+1 === Number(date.slice(5,7)) && d.getDate() === Number(date.slice(8,10));
+}
+function readHistory() {
+const raw = localStorage.getItem(HISTORY_KEY);
+if (!raw) return {version:1, days:{}};
+const data = JSON.parse(raw);
+if (!data || data.version !== 1 || !data.days || typeof data.days !== "object" || Array.isArray(data.days)) throw new Error("Invalid history");
+for (const [date, day] of Object.entries(data.days)) {
+if (!validDate(date) || !day || !Array.isArray(day.people) || !day.people.length) throw new Error("Invalid day");
+const names = new Set();
+for (const p of day.people) {
+if (!p || typeof p.name !== "string" || !p.name || names.has(p.name) || !VALID_STATUSES.includes(p.status) || typeof p.note !== "string") throw new Error("Invalid person");
+names.add(p.name);
+}
+}
+return data;
+}
+function monthlyStats(history, month) {
+const days = Object.keys(history.days).filter(d=>d.startsWith(month+"-")).sort();
+const people = new Map();
+for (const date of days) {
+for (const p of history.days[date].people) {
+if (!people.has(p.name)) people.set(p.name, {name:p.name,present:0,late:0,absent:0,leave:0,recorded:0,leaves:[]});
+const row = people.get(p.name);
+row[p.status]++;
+row.recorded++;
+if (p.status === "leave") row.leaves.push({date,note:p.note});
+}
+}
+return {days,people:[...people.values()].map(p=>({...p,perfect:days.length>0 && p.present===days.length}))};
+}
+function message(text) { $("historyMessage").textContent = text; }
+$("recordDate").value = localDate();
+$("reportMonth").value = localDate().slice(0,7);
+$("recordDate").onchange = () => message("已切換日期；畫面仍保留目前點名，儲存前請核對。");
+$("saveDay").onclick = () => {
+const date = $("recordDate").value;
+if (!validDate(date) || date > localDate()) return message("請選擇有效的點名日期，不能儲存未來日期。");
+const people = state.filter(p=>p.type==="person");
+if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return message("尚有人未點名，請全部點完再儲存；也可以使用「未點名 → 未到」。");
+let history;
+try { history = readHistory(); }
+catch(e) { return message("無法讀取每日紀錄，為避免覆蓋資料，本次未儲存。請確認瀏覽器允許本機儲存。"); }
+if (history.days[date] && !confirm(`${date} 已有紀錄，要用目前畫面覆寫該日紀錄嗎？`)) return;
+history.days[date] = {savedAt:new Date().toISOString(),people:people.map(p=>({name:p.name,status:p.status,note:p.note || ""}))};
+try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); }
+catch(e) { return message("儲存失敗，請確認瀏覽器允許本機儲存且空間足夠。原有每日紀錄未變更。"); }
+message(`已儲存 ${date}，共 ${people.length} 人。之後修改畫面時，請再次儲存才會更新每日紀錄。`);
+$("reportMonth").value = date.slice(0,7);
+renderMonthly();
+};
+function personButton(p, label, report) {
+const b = document.createElement("button");
+b.className = "btn person-link";
+b.textContent = label;
+b.onclick = () => showPerson(p, report);
+return b;
+}
+function showPerson(p, report) {
+const detail = $("personDetail");
+detail.replaceChildren();
+detail.classList.remove("hidden");
+const heading = document.createElement("h3");
+heading.textContent = `${p.name}｜${$("reportMonth").value}`;
+const counts = document.createElement("p");
+counts.textContent = `已記錄點名日 ${report.days.length} 天｜✅準時 ${p.present}｜📅請假 ${p.leave}｜⏰遲到 ${p.late}｜❌未到 ${p.absent}｜缺少紀錄 ${report.days.length-p.recorded}`;
+detail.append(heading, counts);
+const title = document.createElement("h3");
+title.textContent = "每次請假的日期與理由";
+detail.append(title);
+if (!p.leaves.length) {
+const empty = document.createElement("p"); empty.textContent = "本月沒有請假紀錄。"; detail.append(empty);
+} else {
+const list = document.createElement("ul");
+for (const leave of p.leaves) { const li = document.createElement("li"); li.textContent = `${leave.date}：${leave.note || "未填寫理由"}`; list.append(li); }
+detail.append(list);
+}
+detail.focus();
+}
+function renderMonthly() {
+$("monthResults").replaceChildren();
+$("personDetail").classList.add("hidden");
+let history;
+try { history = readHistory(); }
+catch(e) { $("monthSummary").textContent = "無法讀取每日紀錄，原資料未被覆寫。"; return; }
+const month = $("reportMonth").value;
+if (!/^\d{4}-\d{2}$/.test(month)) { $("monthSummary").textContent = "請選擇月份。"; return; }
+const report = monthlyStats(history, month);
+$("monthSummary").textContent = report.days.length ? `${month}｜已記錄 ${report.days.length} 個點名日（${report.days.join("、")}）。點姓名查看請假明細。` : "這個月尚無已儲存的點名紀錄。";
+if (!report.days.length) return;
+const grid = document.createElement("div"); grid.className = "month-grid";
+for (const [title,key] of [["🏆 全勤名單","perfect"],["📅 請假最多","leave"],["⏰ 遲到最多","late"],["❌ 未到最多","absent"]]) {
+const section = document.createElement("section");
+const heading = document.createElement("h3"); heading.textContent = title; section.append(heading);
+const rows = report.people.filter(p=>p[key]).sort((a,b)=>Number(b[key])-Number(a[key]) || a.name.localeCompare(b.name,"zh-Hant"));
+if (!rows.length) { const empty = document.createElement("p"); empty.textContent = key==="perfect" ? "本月目前無全勤人員。" : "本月無此狀態紀錄。"; section.append(empty); }
+for (const p of rows) section.append(personButton(p, `${p.name}　${key==="perfect" ? `${p.present}/${report.days.length} 天` : `${p[key]} 次`}`, report));
+grid.append(section);
+}
+$("monthResults").append(grid);
+const all = document.createElement("details");
+const summary = document.createElement("summary"); summary.textContent = `所有人員（${report.people.length} 人）`; all.append(summary);
+for (const p of report.people) all.append(personButton(p,p.name,report));
+$("monthResults").append(all);
+}
+$("showMonthly").onclick = () => {
+$("monthlyPanel").classList.toggle("hidden");
+if (!$("monthlyPanel").classList.contains("hidden")) { renderMonthly(); $("monthlyPanel").scrollIntoView({behavior:"smooth",block:"start"}); }
+};
+$("reportMonth").onchange = renderMonthly;
+
 render();
 </script>
 </body>
