@@ -75,6 +75,15 @@ button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid
 <h1>🌟 富能512｜點名工具</h1>
 <div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
 <div class="card">
+<h2>☁️ 共用點名紀錄</h2>
+<label for="storageMode">紀錄來源</label>
+<select id="storageMode" style="width:100%;padding:12px;margin:8px 0;font:inherit"><option value="cloud">雲端共用（換人點名）</option><option value="local">本機舊紀錄</option></select>
+<div id="cloudControls">
+<label for="accessCode">點名存取碼</label><input id="accessCode" type="password" autocomplete="off" placeholder="由管理者提供，僅在本次分頁使用">
+<div class="actions"><button class="btn blue" id="connectCloud">連接／重新讀取雲端</button><button class="btn" id="disconnectCloud">登出雲端</button></div>
+<div class="actions"><button class="btn" id="loadCloudDay">載入所選日期</button><button class="btn" id="importLocal">匯入本機舊紀錄</button></div>
+<p id="cloudStatus" role="status" aria-live="polite" class="hint">尚未連接。輸入存取碼後，即可讀取共用紀錄。</p>
+</div>
 <label for="recordDate">點名日期</label>
 <input type="date" id="recordDate">
 <div class="actions"><button class="btn blue" id="saveDay">儲存今日點名</button><button class="btn" id="showMonthly">📊 月統計</button></div>
@@ -85,7 +94,7 @@ button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid
 <h2>📊 月統計</h2>
 <label for="reportMonth">選擇月份</label><input type="month" id="reportMonth">
 <p class="hint">全勤＝當月所有已記錄點名日都是 ✅準時。有遲到、請假、未到或缺少紀錄，均不算全勤。</p>
-<p class="hint">資料僅儲存在此手機的此瀏覽器；清除網站資料後，紀錄也會消失。</p>
+<p class="hint">雲端共用：所有點名人員讀取同一份紀錄。本機舊紀錄：只在這台裝置，可另行匯入雲端。</p>
 <p id="monthSummary" role="status"></p>
 <div id="monthResults"></div>
 <div id="personDetail" class="hidden" tabindex="-1"></div>
@@ -421,8 +430,8 @@ function renderMonthly() {
 $("monthResults").replaceChildren();
 $("personDetail").classList.add("hidden");
 let history;
-try { history = readHistory(); }
-catch(e) { $("monthSummary").textContent = "無法讀取每日紀錄，原資料未被覆寫。"; return; }
+try { history = reportHistory(); }
+catch(e) { $("monthSummary").textContent = e.message || "無法讀取每日紀錄，原資料未被覆寫。"; return; }
 const month = $("reportMonth").value;
 if (!/^\d{4}-\d{2}$/.test(month)) { $("monthSummary").textContent = "請選擇月份。"; return; }
 const report = monthlyStats(history, month);
@@ -449,7 +458,134 @@ if (!$("monthlyPanel").classList.contains("hidden")) { renderMonthly(); $("month
 };
 $("reportMonth").onchange = renderMonthly;
 
+const CLOUD_URL = 'https://script.google.com/macros/s/AKfycbxfioVRbU0U-MnjqICURVvB8tH9n1pAM8phq1Ba4zw_Coluw5GjYYK7xVocBcGQ3xFyjw/exec';
+let cloudHistory = null;
+let cloudKey = '';
+let cloudBusy = false;
+const localSaveDay = $("saveDay").onclick;
+function cloudStatus(text) { $("cloudStatus").textContent = text; }
+function isCloud() { return $("storageMode").value === 'cloud'; }
+function reportHistory() {
+if (!isCloud()) return readHistory();
+if (!cloudHistory) throw new Error('請先連接雲端，才能查看共用月統計。');
+return cloudHistory;
+}
+function busy(value) {
+cloudBusy = value;
+for (const id of ['saveDay','connectCloud','disconnectCloud','loadCloudDay','importLocal','storageMode','accessCode']) $(id).disabled = value;
+}
+async function cloudRequest(action, data = {}) {
+if (!cloudKey) throw new Error('請先輸入存取碼並連接雲端。');
+const controller = new AbortController();
+const timeout = setTimeout(()=>controller.abort(),45000);
+try {
+const response = await fetch(CLOUD_URL, {method:'POST', redirect:'follow', credentials:'omit', headers:{'Content-Type':'text/plain;charset=UTF-8'}, body:JSON.stringify({action,...data,accessCode:cloudKey}),signal:controller.signal});
+if (!response.ok) throw new Error('雲端服務暫時無法回應，請稍後重新讀取。');
+let result;
+try { result = await response.json(); } catch(e) { throw new Error('雲端回應格式不正確，請確認部署允許存取。'); }
+if (!result.ok) {
+const error = new Error(result.message || '雲端操作失敗'); error.code = result.error;
+if (result.error === 'UNAUTHORIZED') { cloudKey=''; cloudHistory=null; }
+throw error;
+}
+return result;
+} catch(e) {
+if (e.name === 'AbortError' || e instanceof TypeError) throw new Error('連線中斷或逾時，無法確認是否已儲存。請先重新讀取雲端並查看該日紀錄，勿直接重複儲存。');
+throw e;
+} finally { clearTimeout(timeout); }
+}
+async function refreshCloud() {
+const result = await cloudRequest('read');
+if (!result.history || result.history.version !== 1 || !result.history.days) throw new Error('雲端紀錄格式不正確');
+cloudHistory = result.history;
+cloudStatus(`已連接共用試算表，共 ${Object.keys(cloudHistory.days).length} 個點名日。`);
+renderMonthly();
+}
+$("connectCloud").onclick = async () => {
+if (cloudBusy) return;
+cloudKey = $("accessCode").value.trim() || cloudKey;
+if (!cloudKey) return cloudStatus('請輸入管理者提供的存取碼。');
+cloudHistory = null; busy(true); cloudStatus('正在讀取雲端紀錄…');
+try { await refreshCloud(); $("accessCode").value=''; }
+catch(e) { cloudStatus(e.message); renderMonthly(); }
+finally { busy(false); }
+};
+$("disconnectCloud").onclick = () => {
+if (cloudBusy) return;
+cloudKey=''; cloudHistory=null; $("accessCode").value='';
+cloudStatus('已登出。'); renderMonthly();
+};
+$("storageMode").onchange = () => {
+$("cloudControls").classList.toggle('hidden',!isCloud());
+message(isCloud() ? '目前使用雲端共用紀錄；儲存成功後其他人即可讀取。' : '目前查看／儲存本機舊紀錄，不會自動同步至雲端。');
+renderMonthly();
+};
+$("saveDay").onclick = async () => {
+if (cloudBusy) return;
+if (!isCloud()) return localSaveDay();
+if (!cloudHistory) return message('請先連接雲端，再儲存今日點名。');
+const date = $("recordDate").value;
+if (!validDate(date) || date > localDate()) return message('請選擇有效日期，不能儲存未來日期。');
+const people = state.filter(p=>p.type==='person').map(p=>({name:p.name,status:p.status,note:p.note || ''}));
+if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return message('尚有人未點名，請全部點完再儲存。');
+const previous = cloudHistory.days[date];
+if (previous && !confirm(`${date} 雲端已有紀錄，確定以目前畫面更新？`)) return;
+busy(true); message(`正在儲存 ${date} 至雲端…`);
+try {
+const result = await cloudRequest('save',{date,people,baseRevision:previous ? previous.revision : ''});
+if (!result.day || !result.day.revision) throw new Error('未取得儲存確認，請重新讀取雲端確認紀錄。');
+cloudHistory.days[date]=result.day;
+$("reportMonth").value=date.slice(0,7); renderMonthly();
+message(`已儲存 ${date} 至雲端，共 ${people.length} 人。其他點名人員按「重新讀取雲端」即可查看。`);
+cloudStatus(`已連接共用試算表，共 ${Object.keys(cloudHistory.days).length} 個點名日。`);
+} catch(e) {
+message(e.message);
+if (e.code === 'CONFLICT') { try { await refreshCloud(); } catch(refreshError) { cloudHistory=null; cloudStatus(refreshError.message); } }
+else { cloudHistory=null; cloudStatus('請重新讀取雲端，確認最新紀錄後再操作。'); }
+renderMonthly();
+} finally { busy(false); }
+};
+$("loadCloudDay").onclick = () => {
+if (cloudBusy) return;
+if (!cloudHistory) return message('請先連接雲端。');
+const day = cloudHistory.days[$("recordDate").value];
+if (!day) return message('所選日期尚無雲端紀錄，畫面保持不變。');
+if (!confirm('要用所選日期的雲端紀錄取代目前畫面？尚未儲存的畫面修改將被取代。')) return;
+state=blankState().map(p=>{
+if (p.type!=='person') return p;
+const found=day.people.find(x=>x.name===p.name);
+return found ? {...p,status:found.status,note:found.note} : p;
+});
+save(); render(); message('已載入所選日期的雲端紀錄。修改後請再次儲存。');
+};
+$("importLocal").onclick = async () => {
+if (cloudBusy) return;
+if (!cloudHistory) return message('請先連接雲端。');
+let local;
+try { local=readHistory(); } catch(e) { return message('無法讀取本機舊紀錄，未進行匯入。'); }
+const dates=Object.keys(local.days).sort();
+if (!dates.length) return message('這台裝置沒有可匯入的每日紀錄。');
+if (!confirm(`將檢查並匯入本機 ${dates.length} 個點名日。雲端已存在的日期會跳過，不會覆寫；本機原始紀錄會保留。確定繼續？`)) return;
+busy(true); let imported=0,skipped=0;
+try {
+await refreshCloud();
+for (const date of dates) {
+if (cloudHistory.days[date]) { skipped++; continue; }
+message(`匯入中：${date}…`);
+try {
+const result=await cloudRequest('save',{date,people:local.days[date].people,baseRevision:''});
+if (!result.day || !result.day.revision) throw new Error('未取得儲存確認');
+cloudHistory.days[date]=result.day; imported++;
+} catch(e) { if (e.code==='CONFLICT') { skipped++; } else throw e; }
+}
+await refreshCloud();
+message(`匯入完成：新增 ${imported} 天、跳過雲端已有的 ${skipped} 天。本機原始紀錄保留；跳過日期可載入雲端紀錄核對。`);
+} catch(e) { cloudHistory=null; renderMonthly(); message(`匯入中止：已確認新增 ${imported} 天、跳過 ${skipped} 天。${e.message} 本機紀錄仍保留，可重新連接後再匯入。`); }
+finally { busy(false); }
+};
+
 render();
 </script>
 </body>
 </html>
+
