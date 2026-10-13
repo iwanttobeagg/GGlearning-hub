@@ -379,6 +379,14 @@ if (p.status === "leave") row.leaves.push({date,note:p.note});
 return {days,people:[...people.values()].map(p=>({...p,perfect:days.length>0 && p.present===days.length}))};
 }
 function message(text) { $("historyMessage").textContent = text; }
+function warnIncomplete(people) {
+const remaining = people.filter(p=>!VALID_STATUSES.includes(p.status)).length;
+const text = people.length
+? `尚有 ${remaining} 人未點名，本次尚未儲存。\n\n請全部點完後，再按「儲存今日點名」。\n若確認剩下的人都沒到，可使用「未點名 → 未到」。`
+: '目前沒有可儲存的人員資料，本次尚未儲存。';
+message(text);
+alert(text);
+}
 $("recordDate").value = localDate();
 $("reportMonth").value = localDate().slice(0,7);
 $("recordDate").onchange = () => message("已切換日期；畫面仍保留目前點名，儲存前請核對。");
@@ -386,7 +394,7 @@ $("saveDay").onclick = () => {
 const date = $("recordDate").value;
 if (!validDate(date) || date > localDate()) return message("請選擇有效的點名日期，不能儲存未來日期。");
 const people = state.filter(p=>p.type==="person");
-if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return message("尚有人未點名，請全部點完再儲存；也可以使用「未點名 → 未到」。");
+if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return warnIncomplete(people);
 let history;
 try { history = readHistory(); }
 catch(e) { return message("無法讀取每日紀錄，為避免覆蓋資料，本次未儲存。請確認瀏覽器允許本機儲存。"); }
@@ -527,7 +535,7 @@ if (!cloudHistory) return message('請先連接雲端，再儲存今日點名。
 const date = $("recordDate").value;
 if (!validDate(date) || date > localDate()) return message('請選擇有效日期，不能儲存未來日期。');
 const people = state.filter(p=>p.type==='person').map(p=>({name:p.name,status:p.status,note:p.note || ''}));
-if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return message('尚有人未點名，請全部點完再儲存。');
+if (!people.length || people.some(p=>!VALID_STATUSES.includes(p.status))) return warnIncomplete(people);
 const previous = cloudHistory.days[date];
 if (previous && !confirm(`${date} 雲端已有紀錄，確定以目前畫面更新？`)) return;
 busy(true); message(`正在儲存 ${date} 至雲端…`);
