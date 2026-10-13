@@ -70,7 +70,7 @@ button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid
 @media(max-width:480px){.month-grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body><section style="margin:16px;padding:20px;background:#e7f8f1;border:2px solid #087968;border-radius:14px"><h2>TP512 整合點名系統</h2><p>LINE 身分綁定、GPS 點名、員工請假與主管審核已整合至同一網站。舊版資料不會自動同步；請先匯出，再由主管於新站匯入。舊版保留供查閱與備份。</p><a href="https://tp512-attendance.onrender.com" style="display:inline-block;padding:12px;background:#087968;color:white;border-radius:8px">開啟整合版</a> <button id="exportIntegration" type="button" style="padding:12px">匯出整合用紀錄</button><p id="exportIntegrationStatus" role="status"></p></section>
 <div class="wrap">
 <h1>🌟 富能512｜點名工具</h1>
 <div class="sub">這台手機會自動保留上一次點名結果，下次打開可直接修改。</div>
@@ -592,8 +592,20 @@ message(`匯入完成：新增 ${imported} 天、跳過雲端已有的 ${skipped
 finally { busy(false); }
 };
 
+document.getElementById('exportIntegration').onclick=function(){
+ try{
+  const data=isCloud()?cloudHistory:readHistory();
+  if(!data)throw new Error('請先連接雲端，或切換本機舊紀錄。');
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='TP512_legacy_'+localDate()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  document.getElementById('exportIntegrationStatus').textContent='已匯出 '+Object.keys(data.days).length+' 個點名日。請至整合版主管後台匯入。原始資料仍保留。';
+ }catch(e){document.getElementById('exportIntegrationStatus').textContent=e.message;}
+};
+
 render();
 </script>
 </body>
 </html>
+
 
