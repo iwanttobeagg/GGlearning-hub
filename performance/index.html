@@ -26,19 +26,29 @@ if(it.s==='組業績'){const targetY=it.y-29.3;const candidates=items.filter(j=>
 events.sort((a,b)=>a.p-b.p||a.y-b.y||((a.type==='name')?-1:1));let prev='',found=new Map(),unmatched=[];for(const e of events){if(e.type==='name')prev=e.key;else if(e.type==='group'&&prev){if(e.value!==null){if(found.has(prev))unmatched.push(`重複組業績：${prev}`);else found.set(prev,e.value)}else unmatched.push(`組業績欄位未抓到：${prev}`)}}
 // 姚姓 MS 的報表末字可能因 PDF 字型而變成罕用字或私用區字形；固定對應『恩迪』。
 // 如報表出現多名姚姓 MS，避免誤配，改為待人工核對。
-const isEndiKey=k=>/^姚[^|]*\|MS$/.test(k);
-const endiKeys=[...found.keys()].filter(isEndiKey);
+// PDF 裡的職級可能與群組管理用的職級不同；應先以遮字姓名比對，不能要求職級也一致。
+// 對同一個遮字姓名若出現多筆，絕不自動猜測。特殊字型的尾字僅允許姓氏+職級唯一時輔助判斷。
+const used=new Set();
+const normalized=s=>String(s).replace(/[ＯO○◯０]/g,'Ｏ').replace(/[\uE000-\uF8FF]/g,'?');
+const sourceKeys=[...found.keys()];
 let matched=0;
 for(const r of rows){
-  let key=r.key;
-  if(r.name==='恩迪'&&r.role==='MS'){
-    key=endiKeys.length===1?endiKeys[0]:null;
-    if(endiKeys.length>1)unmatched.push('找到多名姚姓 MS，恩迪需要人工核對');
+  const expected=normalized(r.key.split('|')[0]);
+  const candidates=sourceKeys.filter(k=>normalized(k.split('|')[0])===expected);
+  let hits=candidates;
+  if(r.name==='恩迪') hits=sourceKeys.filter(k=>k.split('|')[0].startsWith('姚')&&k.endsWith('|MS'));
+  if(hits.length===0){
+    // 僅在同一姓氏、同一職級的來源完全唯一、且固定主管名單亦唯一時才採用後備配對。
+    const surname=expected[0],role=r.key.split('|')[1];
+    const src=sourceKeys.filter(k=>k[0]===surname&&k.endsWith('|'+role));
+    const dest=rows.filter(v=>v.key[0]===surname&&v.key.endsWith('|'+role));
+    if(src.length===1&&dest.length===1)hits=src;
   }
-  if(key&&found.has(key)){r.value=found.get(key);matched++}
+  if(hits.length===1&&!used.has(hits[0])){r.value=found.get(hits[0]);used.add(hits[0]);matched++}
+  else if(hits.length>1)unmatched.push(`姓名可能重複，請人工核對：${r.name}`);
 }
 // 王昱文不屬於這份主管追蹤名單，直接略過，不顯示為錯誤。
-for(const key of found.keys())if(key!=='王Ｏ文|AM'&&!rows.some(r=>r.key===key)&&!isEndiKey(key))unmatched.push(`未列入主管名單：${key}`);if(monthFromPdf&&dayFromPdf&&selectedMonth===monthFromPdf){const year=new Date().getFullYear();$('date').value=`${year}-${String(monthFromPdf).padStart(2,'0')}-${String(dayFromPdf).padStart(2,'0')}`}else $('date').value='';$('monthHelp').textContent=`已選 ${selectedMonth} 月，來源報表查詢月份 ${monthFromPdf||'未知'} 月。`; 
+for(const key of found.keys())if(key!=='王Ｏ文|AM'&&!used.has(key))unmatched.push(`未列入主管名單：${key}`);if(monthFromPdf&&dayFromPdf&&selectedMonth===monthFromPdf){const year=new Date().getFullYear();$('date').value=`${year}-${String(monthFromPdf).padStart(2,'0')}-${String(dayFromPdf).padStart(2,'0')}`}else $('date').value='';$('monthHelp').textContent=`已選 ${selectedMonth} 月，來源報表查詢月份 ${monthFromPdf||'未知'} 月。`; 
 notice=`本次讀取 ${selectedMonth} 月組業績 FYC（不是報表查詢月份）。已自動帶入 ${matched}/${rows.length} 位主管。${rows.length-matched} 位待人工核對。${unmatched.length?' 其他辨識訊息：'+unmatched.slice(0,8).join('、'):' '}請核實資料後再發布。`;$('status').textContent=`✅ 已選擇 ${selectedMonth} 月：PDF 解析完成：${file.name}｜共 ${doc.numPages} 頁｜辨識到 ${found.size} 筆組業績，配對成功 ${matched} 筆。`;update();
 }catch(err){$('status').textContent='❌ PDF 解析失敗：'+err.message+'。請確認網路連線、檔案不是密碼保護，或改用人工輸入。';notice='PDF 無法解析，請手動輸入主管核實業績。';update()}e.target.value=''});update();
 </script></body></html>
