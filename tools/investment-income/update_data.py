@@ -1,7 +1,8 @@
 import argparse
 import json
+import math
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -19,8 +20,8 @@ HEADERS = {
 
 FUNDS = {
     "DSP5": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=TLZ64-DSP5",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=TLZ64-DSP5",
+        "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5",
+        "api": True,
     },
     "DST1": {
         "nav_url": "https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD75-DST1",
@@ -192,9 +193,66 @@ def update_fx(data: dict, errors: dict):
         errors["FX"] = str(e)
 
 
+FUBON_API = "https://invest.fubonlife.com.tw/api/fund/"
+
+
+def fetch_fubon_value(code: str, kind: str, currency: str):
+    """Use the POST endpoints called by the new Fubon fund detail page."""
+    today = datetime.now(TZ).date()
+    endpoint = "getFundNavs" if kind == "nav" else "getFundDividends"
+    response = requests.post(
+        FUBON_API + endpoint,
+        headers=HEADERS,
+        json={"assetFbCode": code,
+              "startDate": (today - timedelta(days=365)).isoformat(),
+              "endDate": today.isoformat()},
+        timeout=30,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    if payload.get("returnCode") != "0000":
+        raise ValueError(f"Fubon {endpoint}: {payload.get('message')}")
+    rows = payload.get("data")
+    if not isinstance(rows, list) or not rows:
+        raise ValueError(f"Fubon {endpoint}: empty or invalid data")
+    date_key = "date" if kind == "nav" else "dividendDate"
+    dated = [(datetime.strptime(row[date_key], "%Y/%m/%d").date(), row)
+             for row in rows]
+    eligible = [(day, row) for day, row in dated if day <= today]
+    if not eligible:
+        raise ValueError(f"Fubon {endpoint}: no effective data")
+    day, row = max(eligible, key=lambda item: item[0])
+    if kind != "nav" and row.get("currencyCode") != currency:
+        raise ValueError("Fubon dividend currency mismatch")
+    # dividendDate is the ex-dividend date; recordDate is the prior record date.
+    raw = row["nav"] if kind == "nav" else row["dividendPerUnit"]
+    if isinstance(raw, bool):
+        raise ValueError("Fubon invalid numeric value")
+    value = float(raw)
+    if not math.isfinite(value) or value < 0 or (kind == "nav" and value == 0):
+        raise ValueError("Fubon invalid numeric value")
+    if kind != "nav" and float(row["dividendAmount"]) != value:
+        raise ValueError("Fubon dividend amount mismatch")
+    return value, day.isoformat()
+
+
 def update_funds(data: dict, errors: dict):
+    refreshed_at = datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
     for code, src in FUNDS.items():
         fund = data["funds"][code]
+        if src.get("api"):
+            for kind in ("nav", "distribution"):
+                try:
+                    value, date = fetch_fubon_value(code, kind, fund["currency"])
+                    if date < fund.get(f"{kind}_date", ""):
+                        raise ValueError("Fubon response would regress saved date")
+                    fund[kind] = value
+                    fund[f"{kind}_date"] = date
+                    fund[f"{kind}_updated_at"] = refreshed_at
+                    fund["source_url"] = src["source_url"]
+                except Exception as e:
+                    errors[f"{code}_{kind}"] = str(e)
+            continue
         try:
             nav, nav_date = parse_nav(src["nav_url"])
             fund["nav"] = nav
@@ -207,7 +265,7 @@ def update_funds(data: dict, errors: dict):
             fund["distribution_date"] = dist_date
         except Exception as e:
             errors[f"{code}_distribution"] = str(e)
-    data["funds_updated_at"] = datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
+    data["funds_updated_at"] = refreshed_at
 
 
 def main():
@@ -240,3 +298,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

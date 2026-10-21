@@ -8,6 +8,7 @@ on:
     paths:
       - '.github/workflows/update-investment-income.yml'
       - 'tools/investment-income/update_data.py'
+      - 'tools/investment-income/test_update_data.py'
   schedule:
     # 10:00 UTC = 18:00 Asia/Taipei, every day
     - cron: '0 10 * * *'
@@ -30,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
+      - name: Test fund parser
+        run: python -m unittest discover -s tools/investment-income -p 'test_*.py'
+
       - name: Refresh fund NAV and distributions
         run: python tools/investment-income/update_data.py --funds-only
 
@@ -44,3 +48,20 @@ jobs:
             git commit -m "Update investment fund data"
             git push
           fi
+
+      - name: Verify DSP5 refreshed successfully
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('tools/investment-income/data.json').read_text())
+          errors = {k: v for k, v in data.get('refresh_errors', {}).items() if k.startswith('DSP5_')}
+          if errors:
+              raise SystemExit(f'DSP5 refresh failed: {errors}')
+          fund = data['funds']['DSP5']
+          for kind in ('nav', 'distribution'):
+              if fund.get(f'{kind}_updated_at') != data['funds_updated_at']:
+                  raise SystemExit(f'DSP5 {kind} was not refreshed in this run')
+              print(f'DSP5 {kind}: {fund[kind]} ({fund[kind + "_date"]})')
+          PY
+

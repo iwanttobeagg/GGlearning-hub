@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-20 22:37",
+  "updated_at": "2026-10-21 13:54",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -12,10 +12,13 @@
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
       "currency": "USD",
-      "nav": 8.4184,
-      "nav_date": "2026-10-09",
-      "distribution": 0.055,
-      "distribution_date": "2026-09-15"
+      "nav": 8.2174,
+      "nav_date": "2026-10-20",
+      "distribution": 0.06,
+      "distribution_date": "2026-10-15",
+      "nav_updated_at": "2026-10-21 13:54",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5",
+      "distribution_updated_at": "2026-10-21 13:54"
     },
     "DST1": {
       "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
@@ -60,16 +63,14 @@
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
       "currency": "USD",
-      "nav": 72.44,
-      "nav_date": "2026-10-19",
+      "nav": 72.37,
+      "nav_date": "2026-10-20",
       "distribution": 0.8322,
       "distribution_date": "2024-07-31"
     }
   },
   "refresh_status": "partial",
   "refresh_errors": {
-    "DSP5_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=TLZ64-DSP5",
-    "DSP5_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=TLZ64-DSP5",
     "DST1_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD75-DST1",
     "DST1_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD75-DST1",
     "DST3_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD154-DST3",
@@ -81,5 +82,5 @@
     "MLE24_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=SHZV9-MLE24",
     "MLE24_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=SHZV9-MLE24"
   },
-  "funds_updated_at": "2026-10-20 22:37"
+  "funds_updated_at": "2026-10-21 13:54"
 }
