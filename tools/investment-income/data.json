@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21 13:56",
+  "updated_at": "2026-10-21 14:01",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -16,49 +16,64 @@
       "nav_date": "2026-10-20",
       "distribution": 0.06,
       "distribution_date": "2026-10-15",
-      "nav_updated_at": "2026-10-21 13:56",
+      "nav_updated_at": "2026-10-21 14:01",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5",
-      "distribution_updated_at": "2026-10-21 13:56"
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "DST1": {
       "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
       "currency": "TWD",
-      "nav": 8.22,
-      "nav_date": "2026-10-07",
+      "nav": 8.15,
+      "nav_date": "2026-10-19",
       "distribution": 0.059,
-      "distribution_date": "2026-09-29"
+      "distribution_date": "2026-09-29",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST1",
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
       "currency": "USD",
-      "nav": 12.84,
-      "nav_date": "2026-10-07",
+      "nav": 11.99,
+      "nav_date": "2026-10-19",
       "distribution": 0.088,
-      "distribution_date": "2026-09-29"
+      "distribution_date": "2026-09-29",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST3",
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
       "currency": "USD",
-      "nav": 72.37,
-      "nav_date": "2026-10-08",
+      "nav": 71.92,
+      "nav_date": "2026-10-20",
       "distribution": 0.609,
-      "distribution_date": "2026-10-08"
+      "distribution_date": "2026-10-08",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/39/JFP11",
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
       "currency": "USD",
-      "nav": 35.67,
-      "nav_date": "2026-10-07",
+      "nav": 35.55,
+      "nav_date": "2026-10-20",
       "distribution": 0.51,
-      "distribution_date": "2026-10-02"
+      "distribution_date": "2026-10-02",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/32/NGB1",
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "MLE24": {
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
       "currency": "USD",
-      "nav": 21.89,
-      "nav_date": "2026-10-09",
+      "nav": 19.73,
+      "nav_date": "2026-10-20",
       "distribution": 0.153,
-      "distribution_date": "2026-09-30"
+      "distribution_date": "2026-09-30",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/27/MLE24",
+      "distribution_updated_at": "2026-10-21 14:01"
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
@@ -66,21 +81,13 @@
       "nav": 72.37,
       "nav_date": "2026-10-20",
       "distribution": 0.8322,
-      "distribution_date": "2024-07-31"
+      "distribution_date": "2026-09-30",
+      "nav_updated_at": "2026-10-21 14:01",
+      "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/40/ACE17",
+      "distribution_updated_at": "2026-10-21 14:01"
     }
   },
-  "refresh_status": "partial",
-  "refresh_errors": {
-    "DST1_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD75-DST1",
-    "DST1_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD75-DST1",
-    "DST3_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD154-DST3",
-    "DST3_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD154-DST3",
-    "JFP11_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=JFZN3-JFP11",
-    "JFP11_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=JFZN3-JFP11",
-    "NGB1_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=ANZ89-NGB1",
-    "NGB1_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=ANZ89-NGB1",
-    "MLE24_nav": "NAV not found: https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=SHZV9-MLE24",
-    "MLE24_distribution": "distribution not found: https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=SHZV9-MLE24"
-  },
-  "funds_updated_at": "2026-10-21 13:56"
+  "refresh_status": "ok",
+  "refresh_errors": {},
+  "funds_updated_at": "2026-10-21 14:01"
 }

@@ -18,36 +18,18 @@ HEADERS = {
     "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
 }
 
-FUNDS = {
-    "DSP5": {
-        "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5",
-        "api": True,
-    },
-    "DST1": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD75-DST1",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD75-DST1",
-    },
-    "DST3": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wr/wr02.djhtm?a=ACDD154-DST3",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wr/wr10.djhtm?a=ACDD154-DST3",
-    },
-    "JFP11": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=JFZN3-JFP11",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=JFZN3-JFP11",
-    },
-    "NGB1": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=ANZ89-NGB1",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=ANZ89-NGB1",
-    },
-    "MLE24": {
-        "nav_url": "https://invest.fubonlife.com.tw/w/wb/wb02.djhtm?a=SHZV9-MLE24",
-        "dist_url": "https://invest.fubonlife.com.tw/w/wb/wb05.djhtm?a=SHZV9-MLE24",
-    },
-    "ACE17": {
-        "nav_url": "https://fund.hncb.com.tw/w/wb/wb02.djhtm?a=ALBT8-16G7",
-        "dist_url": "https://fund.hncb.com.tw/w/wb/wb05.djhtm?a=ALBT8-16G7",
-    },
-}
+FUNDS = {'DSP5': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5',
+          'api': True},
+ 'DST1': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST1', 'api': True},
+ 'DST3': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST3', 'api': True},
+ 'JFP11': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/WFUND/39/JFP11',
+           'api': True},
+ 'NGB1': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/WFUND/32/NGB1',
+          'api': True},
+ 'MLE24': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/WFUND/27/MLE24',
+           'api': True},
+ 'ACE17': {'source_url': 'https://invest.fubonlife.com.tw/funds/overview/WFUND/40/ACE17',
+           'api': True}}
 
 DATE_RE = re.compile(r"^(?:(\d{4})[/-])?(\d{1,2})[/-](\d{1,2})$")
 NUM_RE = re.compile(r"^-?\d+(?:\.\d+)?$")

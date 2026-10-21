@@ -1,4 +1,6 @@
 import copy
+import json
+from pathlib import Path
 import unittest
 from unittest.mock import Mock, patch
 
@@ -40,6 +42,30 @@ class FubonTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.fetch([{"dividendDate": "2025/01/15", "currencyCode": "TWD",
                          "dividendPerUnit": 0.06, "dividendAmount": "0.06"}], "distribution")
+
+    def test_all_funds_use_new_api_and_correct_currency(self):
+        fixtures = json.loads(Path(__file__).with_name("fubon-fixtures.json").read_text())
+        self.assertEqual(set(fixtures), set(app.FUNDS))
+        data = {"funds": {code: {"currency": rows["distribution"]["currencyCode"]}
+                          for code, rows in fixtures.items()}}
+        def respond(url, **kwargs):
+            code = kwargs["json"]["assetFbCode"]
+            kind = "nav" if url.endswith("getFundNavs") else "distribution"
+            response = Mock()
+            response.json.return_value = {"returnCode": "0000", "data": [fixtures[code][kind]]}
+            return response
+        errors = {}
+        with patch.object(app.requests, "post", side_effect=respond) as post:
+            app.update_funds(data, errors)
+        self.assertEqual(errors, {})
+        self.assertEqual(post.call_count, 14)
+        for code, rows in fixtures.items():
+            with self.subTest(code=code):
+                fund = data["funds"][code]
+                self.assertEqual(fund["nav"], float(rows["nav"]["nav"]))
+                self.assertEqual(fund["distribution"], rows["distribution"]["dividendPerUnit"])
+                self.assertEqual(fund["distribution_date"], rows["distribution"]["dividendDate"].replace("/", "-"))
+                self.assertIn("/funds/overview/", fund["source_url"])
 
     def test_failure_preserves_values_and_dates(self):
         original = {"currency": "USD", "nav": 8.4, "nav_date": "2025-01-03",
