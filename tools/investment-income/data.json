@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-19 20:19",
+  "updated_at": "2026-11-20 02:47",
   "fx": {
     "source": "HaoRate 公開匯率",
     "source_url": "https://cdn.jsdelivr.net/gh/haotool/app@data/public/rates/latest.json",
@@ -12,82 +12,82 @@
     "DSP5": {
       "name": "安聯收益成長基金-AM穩定月收類股(美元)",
       "currency": "USD",
-      "nav": 7.9765,
-      "nav_date": "2026-11-17",
+      "nav": 7.9451,
+      "nav_date": "2026-11-18",
       "distribution": 0.06,
       "distribution_date": "2026-11-16",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/25/DSP5",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "DST1": {
       "name": "安聯收益成長多重資產證券投資信託基金-B類型(月配息)-新臺幣",
       "currency": "TWD",
-      "nav": 7.85,
-      "nav_date": "2026-11-17",
+      "nav": 7.86,
+      "nav_date": "2026-11-18",
       "distribution": 0.063,
       "distribution_date": "2026-10-29",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST1",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "DST3": {
       "name": "安聯AI收益成長多重資產基金-B類型(月配息)-美元",
       "currency": "USD",
-      "nav": 11.11,
-      "nav_date": "2026-11-17",
+      "nav": 11.13,
+      "nav_date": "2026-11-18",
       "distribution": 0.097,
       "distribution_date": "2026-10-29",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/FUND/10/DST3",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "JFP11": {
       "name": "摩根投資基金-多重收益基金-(美元對沖)-A股(穩定月配)",
       "currency": "USD",
-      "nav": 70.41,
-      "nav_date": "2026-11-17",
+      "nav": 70.19,
+      "nav_date": "2026-11-18",
       "distribution": 0.597,
       "distribution_date": "2026-11-10",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/39/JFP11",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "NGB1": {
       "name": "高盛基金III-高盛環球非投資等級債券基金X股美元(月配息)",
       "currency": "USD",
-      "nav": 35.01,
-      "nav_date": "2026-11-17",
+      "nav": 34.9,
+      "nav_date": "2026-11-18",
       "distribution": 0.51,
       "distribution_date": "2026-11-03",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/32/NGB1",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "MLE24": {
       "name": "貝萊德世界科技基金A10美元(總報酬穩定配息)",
       "currency": "USD",
-      "nav": 16.95,
-      "nav_date": "2026-11-17",
+      "nav": 17.01,
+      "nav_date": "2026-11-18",
       "distribution": 0.162,
       "distribution_date": "2026-10-30",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/27/MLE24",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     },
     "ACE17": {
       "name": "聯博–美國成長基金AP(總報酬月配)級別美元",
       "currency": "USD",
-      "nav": 67.05,
-      "nav_date": "2026-11-17",
+      "nav": 67.13,
+      "nav_date": "2026-11-18",
       "distribution": 0.8322,
       "distribution_date": "2026-10-30",
-      "nav_updated_at": "2026-11-19 02:35",
+      "nav_updated_at": "2026-11-20 02:46",
       "source_url": "https://invest.fubonlife.com.tw/funds/overview/WFUND/40/ACE17",
-      "distribution_updated_at": "2026-11-19 02:35"
+      "distribution_updated_at": "2026-11-20 02:46"
     }
   },
   "refresh_status": "ok",
   "refresh_errors": {},
-  "funds_updated_at": "2026-11-19 02:35"
+  "funds_updated_at": "2026-11-20 02:46"
 }
